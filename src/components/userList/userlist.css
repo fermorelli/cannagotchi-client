@@ -1,0 +1,85 @@
+.userList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.disabled {
+    display: none;
+}
+
+.userCard {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.userCard span {
+    color: aliceblue;
+    font-style: italic;
+}
+
+.header {
+    display: flex;
+    margin: 0;
+    gap: 2rem;
+    align-items: center;
+}
+
+.userCard h3 {
+    font-weight: bold;
+}
+
+.headerList {
+    display: flex;
+    align-content: center;
+    gap: 2rem;
+}
+
+.headerButtons {
+    border: 1px solid red;
+}
+
+.headerButtons svg {
+    cursor: pointer;
+}
+
+.icon {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.modalButtons {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.modalButtons button {
+    background: var(--color-bg-variant);
+	color: white;
+    padding: 3px 10px;
+    border-radius: 5px;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.editButtons button {
+    background: var(--color-bg-variant);
+	color: white;
+    padding: 3px 10px;
+    border-radius: 5px;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+    transform: scale(0.8);
+    margin-left: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+.disabled {
+    display: none;
+}

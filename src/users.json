@@ -1,0 +1,37 @@
+[
+    {
+        "firstName": "Pepe",
+        "lastName": "Pistola",
+        "email": "pepe@pistola.com",
+        "password": "asd1234",
+        "id": "1"
+    },
+    {
+        "firstName": "Fer",
+        "lastName": "Morelli",
+        "email": "fer@morelli.com",
+        "password": "asd1234",
+        "id": "2"
+    },
+    {
+        "firstName": "Fran",
+        "lastName": "Camonte",
+        "email": "fran@camonte.com",
+        "password": "asd1234",
+        "id": "3"
+    },
+    {
+        "firstName": "Raul",
+        "lastName": "McAfee",
+        "email": "raul@mcafee.com",
+        "password": "asd1234",
+        "id": "4"
+    },
+    {
+        "firstName": "Rolando",
+        "lastName": "Rivas",
+        "email": "roli@rivas.com",
+        "password": "asd1234",
+        "id": "5"
+    }
+]

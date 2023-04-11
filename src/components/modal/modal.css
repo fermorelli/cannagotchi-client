@@ -1,0 +1,44 @@
+.modalBackground {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	background: rgba(0, 0, 0, 0.1);
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 200;
+	padding: 10px;
+}
+
+.modalContainer {
+	z-index: 201;
+	background-color: var(--color-bg);
+	border-radius: 4px;
+	padding: 16px;
+	margin: auto;
+	min-width: 350px;
+	max-width: 800px;
+	max-height: 90vh;
+	text-align: center;
+}
+
+.modalHeader {
+	line-height: 16px;
+	font-size: 20px;
+	font-weight: 500;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	margin-right: 10px;
+}
+
+.modalHeader > i:hover {
+	cursor: pointer;
+	color: red;
+}
+
+.modalBody {
+	overflow: auto;
+	height: max-content;
+	max-height: calc(90vh - 75px);
+}

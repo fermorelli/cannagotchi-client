@@ -1,0 +1,70 @@
+#title{
+    margin: 1rem 0 0 1rem;
+}
+
+.all_plants {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 2rem;
+    margin: 1rem 0 2rem 1rem;
+    min-height: 60vh;
+ }
+
+ .header {
+   display: flex;
+   align-items: flex-end;
+   justify-content: space-between;
+ }
+
+ .add-plant {
+   padding: 1rem;
+   display: flex;
+   gap: 1rem;
+   align-items: center;
+   font-style: italic;
+   margin-right: 2rem;
+ }
+
+ .add-plant svg {
+   transform: scale(2);
+ }
+
+ .plant_card {
+     display: flex;
+     flex-direction: column;
+     padding: 1rem;
+     background-color: rgba(50, 50, 50, 0.4);
+     border-radius: 3px;
+ }
+
+ .plant_card:hover {
+   transform: scale(1.05);
+   background-color: rgba(57, 88, 70, 0.4);
+ }
+
+ .plant_attribute {
+     display: flex;
+     justify-content: space-between;
+ }
+
+ .plant_attribute span {
+    font-style: italic;
+ }
+
+ .plantHeadersButtons {
+    display: flex;
+    justify-content: flex-end;
+ }
+
+ .plantHeadersButtons a {
+    margin-top: -3px;
+ }
+
+ .disabled {
+    display: none;
+ }
+
+ .no-plants {
+   margin: 2rem 0 0 2rem;
+   min-height: 60vh;
+ }

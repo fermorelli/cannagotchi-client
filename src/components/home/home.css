@@ -1,0 +1,59 @@
+.header {
+    margin: 2rem 0 2rem 2rem;
+}
+
+.body {
+    width: 70%;
+}
+
+.user__card {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 2rem;
+    background-color: rgba(50, 50, 50, 0.5);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.title {
+    margin-bottom: 1rem;
+}
+
+.fields{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4,35px);
+}
+
+.data {
+    font-style: italic;
+}
+
+.data-link {
+    font-style: italic;
+}
+
+.password {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.card__header {
+    display: flex;
+    gap: 2rem;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.card__header svg {
+    margin-top: 5px;
+}
+
+.link {
+    text-decoration: underline;
+}
+.all_home{
+   min-height: 72vh;
+}

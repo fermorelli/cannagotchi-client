@@ -1,0 +1,64 @@
+.all {
+    width: 80%;
+    margin: 4rem auto;
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.all h2 {
+    margin-bottom: 2rem;
+}
+
+.form input {
+    width: 30%;
+    height: 2rem;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+.form button {
+    margin-top: 1rem;
+    width: 100px;
+    height: 30px;
+}
+
+.addModalButtons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.addModalButtons button{
+    background: var(--color-bg-variant);
+	color: white;
+    padding: 3px 10px;
+    border-radius: 5px;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.addModalButtons span{
+    font-size: 0.8rem;
+    text-decoration: underline;
+}
+
+.formButtons {
+    display: flex;
+    gap: 2rem;
+}
+
+.formButtons button {
+    font-family:'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+.formButtons button:hover{
+    transform: scale(1.05);
+}

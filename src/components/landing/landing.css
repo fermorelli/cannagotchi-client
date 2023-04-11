@@ -1,0 +1,50 @@
+.landing-header {
+    display: flex;
+    flex-direction: column;
+}
+
+#link {
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.all-landing {
+    width: 100vw;
+}
+
+.main_home {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.p-banner{
+    width: 50%;
+    margin: -24rem 0 0 8.5rem;
+}
+
+.about {
+    padding: 2rem;
+    margin-top: 15%;
+}
+
+.text_img {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 2rem 2rem 2rem 0;
+    gap: 2rem;
+}
+
+.text_img img{
+    width: 50%;
+    border: 3px solid black;
+    border-radius: 25px;
+}
+
+.text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#img2 {}

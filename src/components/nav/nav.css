@@ -1,0 +1,25 @@
+nav {
+    width: 100%;
+    height: 10vh;
+    background-color: var(--color-bg);
+}
+
+.links {
+    display: flex;
+    height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 2rem;
+    gap: 6rem;
+}
+
+.links span {
+    cursor: pointer;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 0.5rem;
+}
