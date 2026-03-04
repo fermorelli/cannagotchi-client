@@ -9,30 +9,43 @@
 }
 
 .all-landing {
-    width: 100vw;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
 }
 
-.main_home {
+.banner {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+}
+
+#banner {
+    max-width: 420px;
+    border-radius: 1.5rem;
 }
 
 .p-banner{
-    width: 50%;
-    margin: -24rem 0 0 8.5rem;
+    flex: 1;
 }
 
 .about {
-    padding: 2rem;
-    margin-top: 15%;
+    padding-top: 4rem;
+}
+
+.about_header h1 {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 .text_img {
     display: flex;
     flex-direction: row-reverse;
-    padding: 2rem 2rem 2rem 0;
+    padding: 2rem 0;
     gap: 2rem;
+    align-items: center;
 }
 
 .text_img img{
@@ -42,9 +55,44 @@
 }
 
 .text{
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 0.75rem;
 }
 
-#img2 {}
+@media screen and (max-width: 900px) {
+    .banner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #banner {
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .p-banner {
+        width: 100%;
+        margin: 0;
+    }
+
+    .text_img {
+        flex-direction: column;
+    }
+
+    .text_img img {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .all-landing {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .about_header h1 {
+        font-size: 1.8rem;
+    }
+}

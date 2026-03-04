@@ -1,16 +1,18 @@
 .header {
-    margin: 2rem 0 2rem 2rem;
+    margin: 2rem 0;
+    padding: 0 2rem;
 }
 
 .body {
-    width: 70%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .user__card {
     display: flex;
     flex-direction: column;
     width: 50%;
-    margin-left: 2rem;
     background-color: rgba(50, 50, 50, 0.5);
     padding: 1rem;
     border-radius: 10px;
@@ -56,4 +58,27 @@
 }
 .all_home{
    min-height: 72vh;
+}
+
+@media screen and (max-width: 900px) {
+    .user__card {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .header {
+        padding: 0 1rem;
+    }
+
+    .user__card {
+        width: 100%;
+        margin: 0 1rem;
+    }
+
+    .fields{
+        grid-template-columns: 1fr;
+        grid-auto-rows: minmax(30px, auto);
+        row-gap: 0.5rem;
+    }
 }

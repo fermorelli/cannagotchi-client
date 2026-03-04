@@ -11,8 +11,12 @@ export const Plants = ()=>{
     const { plants, authUser} = useAuth();
 
     useEffect(()=>{
-        plants && setMyPlants(plants.filter(plant => plant.user_id === authUser?._id))
-    }, [])
+        if (!plants || !authUser?._id) {
+            setMyPlants([]);
+            return;
+        }
+        setMyPlants(plants.filter(plant => plant.user_id === authUser._id));
+    }, [plants, authUser])
 
     return (
         <>

@@ -17,31 +17,31 @@ export const LogIn = ()=>{
     const navigate = useNavigate();
     const { login } = useAuth();
 
-    const logIn = (e)=>{
+    const logIn = async (e)=>{
         e.preventDefault();
         isFetching(true);
-        login(email,password)
-        .then(()=>{
-            const auth = localStorage.getItem('auth');
-            const evalAuth = ()=>{
-                switch(auth){
-                    case '"Firebase: Error (auth/wrong-password)."':
-                        setErrmsg('Wrong password');
-                        break;
-                    case '"Firebase: Error (auth/network-request-failed)."':
-                        setErrmsg('Network request failed')
-                        break;
-                    default:
-                        console.log('no coincide');
-                }
+        setErrmsg('');
+        try {
+            await login(email,password);
+            navigate('/home');
+        } catch (err) {
+            const code = err?.code;
+            switch (code) {
+                case 'auth/wrong-password':
+                    setErrmsg('Wrong password');
+                    break;
+                case 'auth/user-not-found':
+                    setErrmsg('User not found');
+                    break;
+                case 'auth/network-request-failed':
+                    setErrmsg('Network request failed');
+                    break;
+                default:
+                    setErrmsg('Something went wrong. Please try again.');
             }
-            isFetching(false)
-            if(auth==='auth'){
-                navigate('/home')
-            }else{
-                evalAuth();
-            }
-        })
+        } finally {
+            isFetching(false);
+        }
     }
 
     const { register, handleSubmit, formState: { errors } } = useForm({

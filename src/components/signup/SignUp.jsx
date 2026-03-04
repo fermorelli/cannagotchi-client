@@ -26,10 +26,6 @@ export const SignUp = ()=> {
     const back = 'https://cannagotchi-server.vercel.app/'
 
     const addUser = ()=>{
-
-        const auth = localStorage.getItem('auth');
-
-        auth === 'auth' ?
         fetch(`${back}users`, {
             method: 'POST',
             headers: {
@@ -53,29 +49,31 @@ export const SignUp = ()=> {
                 console.log(err.message);
                 isSuccess(false);
             })
-            :
-            console.log(auth)
-            switch(auth){
-                case '"Firebase: Error (auth/email-already-in-use)."':
-                    setErrmsg('Mail already in use, please choose another one');
-                    break;
-                case '"Firebase: Error (auth/network-request-failed)."':
-                    setErrmsg('Network request failed')
-                    break;
-                default:
-                    console.log('no coincide');
-            }
     }
 
-    const signUp = (e)=>{
+    const signUp = async (e)=>{
         e.preventDefault();
         isFetching(true);
-        regNew(email,password)
-            .then(()=>{
-                addUser();
-                isLogged(true)
-                isFetching(false);
-            })
+        setErrmsg('');
+        try {
+            await regNew(email,password);
+            addUser();
+            isLogged(true)
+            isFetching(false);
+        } catch (err) {
+            const code = err?.code;
+            switch (code) {
+                case 'auth/email-already-in-use':
+                    setErrmsg('Mail already in use, please choose another one');
+                    break;
+                case 'auth/network-request-failed':
+                    setErrmsg('Network request failed');
+                    break;
+                default:
+                    setErrmsg('Something went wrong. Please try again.');
+            }
+            isFetching(false);
+        }
         }
 
     const handleClose = ()=>{

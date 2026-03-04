@@ -13,6 +13,7 @@ import { SinglePlant } from './components/singleplant/SinglePlant';
 import { EditPlant } from './components/editplant/EditPlant';
 import { Landing } from './components/landing/Landing';
 import { Faqs } from './components/faqs/Faqs';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -22,17 +23,19 @@ function App() {
           <Nav />
             <Routes>
               <Route path='/' element={<Landing />} exact></Route>
-              <Route path='/home' element={<Home />} exact></Route>
               <Route path='/login' element={<LogIn />} exact></Route>
               <Route path='/signup' element={<SignUp />} exact></Route>
-              <Route path='/users' element={<UserList />} exact></Route>
-              <Route path='/add-user' element={<AddUser />} exact></Route>
-              <Route path='/edit-user/:id' element={<EditUser />} exact></Route>
-              <Route path='/plants' element={<Plants />} exact></Route>
-              <Route path='/plants/:id' element={<SinglePlant />} exact></Route>
-              <Route path='/add-plant' element={<AddPlant />} exact></Route>
-              <Route path='/edit-plant/:id' element={<EditPlant />} exact></Route>
               <Route path='/faqs' element={<Faqs />} exact></Route>
+              <Route element={<ProtectedRoute />}>
+                <Route path='/home' element={<Home />} exact></Route>
+                <Route path='/users' element={<UserList />} exact></Route>
+                <Route path='/add-user' element={<AddUser />} exact></Route>
+                <Route path='/edit-user/:id' element={<EditUser />} exact></Route>
+                <Route path='/plants' element={<Plants />} exact></Route>
+                <Route path='/plants/:id' element={<SinglePlant />} exact></Route>
+                <Route path='/add-plant' element={<AddPlant />} exact></Route>
+                <Route path='/edit-plant/:id' element={<EditPlant />} exact></Route>
+              </Route>
             </Routes>
           </Router>
       </AuthProvider>

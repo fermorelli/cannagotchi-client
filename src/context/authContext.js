@@ -14,7 +14,8 @@ export const AuthProvider = ({children})=>{
     const [ user, setUser ] = useState(null);
     const [ users, setUsers ] = useState([]);
     const [ plants, setPlants ] = useState([]);
-    const [ authUser, setAuthUser ] = useState({});
+    const [ authUser, setAuthUser ] = useState(null);
+    const [ initializing, setInitializing ] = useState(true);
     const [ change, setChange ] = useState(false);
     const [ edit, setEdit ] = useState(false);
     const [ deleted, isDeleted ] = useState(false);
@@ -28,62 +29,58 @@ export const AuthProvider = ({children})=>{
         setUsers(data.data)
     };
 
-    const getPlants = () => {
-        fetch(`${back}plants`)
-        .then(response=> response.json())
-        .then(data => setPlants(data.data))
+    const getPlants = async () => {
+        const response = await fetch(`${back}plants`);
+        const data = await response.json();
+        setPlants(data.data);
     };
 
-    useEffect(()=>{
-        getUsers();
-        getPlants();
-        onAuthStateChanged(auth, currentUser => {
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
-            localStorage.setItem('user', JSON.stringify(currentUser));
-        })
-        const userMatch = async () =>{
-            try{
-                const finding = usuario => usuario.email === user?.email
-                setAuthUser(users.find(finding));
-                console.log('authuser: ', authUser)
-            }catch(e){
-                console.log(e.message)
+            setInitializing(false);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        if (!user) {
+            setAuthUser(null);
+            return;
+        }
+
+        const fetchData = async () => {
+            try {
+                await Promise.all([getUsers(), getPlants()]);
+            } catch (e) {
+                console.log(e.message);
             }
-        }
-        userMatch();
-        console.log(plants)
-    },[user, change, deleted, edit, logged])
+        };
 
-    const regNew = async (email, password) => {
-        try{
-            await createUserWithEmailAndPassword(auth, email, password);
-            localStorage.setItem('auth', 'auth')
-        }
-        catch(err){
-            const error = err.message;
-            localStorage.setItem('auth', JSON.stringify(error))
-        }
-    }
+        fetchData();
+    }, [user, change, deleted, edit, logged]);
 
-    const login = async (email,password) => {
-        try{
-            await signInWithEmailAndPassword(auth, email, password);
-            localStorage.setItem('auth', 'auth')
-        }
-        catch(err){
-            const error = err.message;
-            localStorage.setItem('auth', JSON.stringify(error))
-        }
-    }
+    useEffect(() => {
+        if (!user || users.length === 0) return;
+        const match = users.find(u => u.email === user.email) || null;
+        setAuthUser(match);
+    }, [user, users]);
+
+    const regNew = (email, password) => {
+        return createUserWithEmailAndPassword(auth, email, password);
+    };
+
+    const login = (email,password) => {
+        return signInWithEmailAndPassword(auth, email, password);
+    };
 
     const logout = ()=> {
         signOut(auth);
-        setAuthUser({});
-        localStorage.clear();
+        setAuthUser(null);
     }
 
     return(
-        <authContext.Provider value={{regNew, login, logout, user, users, authUser, plants, setChange, isDeleted, setEdit, isLogged}}>
+        <authContext.Provider value={{regNew, login, logout, user, users, authUser, plants, setChange, isDeleted, setEdit, isLogged, initializing}}>
             {children}
         </authContext.Provider>
     )
