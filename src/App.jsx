@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Nav } from './components/nav/nav';
 import { LogIn } from './components/login/LogIn';
 import { SignUp } from './components/signup/SignUp';
-import { AuthProvider } from './context/authContext';
+import { AuthProvider } from './context/authContext.jsx';
 import { Home } from './components/home/Home';
 import { Plants } from './components/plants/plants';
 import { AddPlant } from './components/addplant/AddPlant';

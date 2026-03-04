@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/authContext";
+import { useAuth } from "../../context/authContext.jsx";
 import { AiFillPlusCircle } from 'react-icons/ai'
 import { Link } from "react-router-dom";
 import './plants.css'

@@ -4,7 +4,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { GoTrashcan } from 'react-icons/go'
 import { Link } from "react-router-dom";
 import Modal from "../modal/modal";
-import { useAuth } from "../../context/authContext";
+import { useAuth } from "../../context/authContext.jsx";
 
 export const UserList = ()=> {
 

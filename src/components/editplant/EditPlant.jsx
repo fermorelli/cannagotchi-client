@@ -5,7 +5,7 @@ import '../addUser/adduser.css';
 import { appendErrors, useForm } from 'react-hook-form';
 import { schema } from './validations';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { useAuth } from '../../context/authContext';
+import { useAuth } from '../../context/authContext.jsx';
 import { Footer } from '../footer/Footer';
 
 export const EditPlant = ()=> {

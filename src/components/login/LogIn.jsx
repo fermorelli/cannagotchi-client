@@ -3,7 +3,7 @@ import { appendErrors, useForm } from 'react-hook-form';
 import { schema } from './validation';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useState } from 'react';
-import { useAuth } from '../../context/authContext';
+import { useAuth } from '../../context/authContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { Loader } from '../loader/loader';
 import { Footer } from '../footer/Footer';

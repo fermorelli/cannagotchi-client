@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useAuth } from "../../context/authContext";
+import { useAuth } from "../../context/authContext.jsx";
 import { Link } from "react-router-dom";
 import './home.css';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
