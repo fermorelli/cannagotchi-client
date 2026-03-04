@@ -1,26 +1,26 @@
-import banner from "../../assets/banner.png";
-import "./landing.css";
-import { Link } from "react-router-dom";
-import { Footer } from "../footer/Footer";
-import img1 from "../../assets/img1.jpg";
-import img2 from "../../assets/img2.webp";
+import './landing.css';
+import { Link } from 'react-router-dom';
+import { Footer } from '../footer/Footer';
+import img1 from '../../assets/img1.jpg';
+import img2 from '../../assets/img2.webp';
 
 export const Landing = () => {
     return (
         <>
             <main className="landing">
-                {/* HERO (full width) */}
+                {/* HERO full width, same content width via .container */}
                 <section className="hero" aria-labelledby="hero-title">
-                    <div className="hero__inner">
+                    <div className="container hero__inner">
                         <div className="hero__copy">
                             <p className="hero__eyebrow">Cannagotchi</p>
+
                             <h1 id="hero-title" className="hero__title">
                                 Track every plant, every day, without the notebook chaos.
                             </h1>
+
                             <p className="hero__subtitle">
-                                Cannagotchi helps you log growth, feeding, training, and notes
-                                in one place. Get reminders for cycles and harvest windows so
-                                you stay consistent and avoid surprises.
+                                Log growth, feeding, training, and notes in one place. Stay consistent with cycle-based reminders and
+                                simple milestones so you always know what’s next.
                             </p>
 
                             <div className="hero__cta">
@@ -33,99 +33,81 @@ export const Landing = () => {
                             </div>
 
                             <p className="hero__hint">
-                                Already using the app?{" "}
-                                <Link to="/login" className="link">
-                                    Log in
-                                </Link>
+                                Already using the app? <Link to="/login" className="link">Log in</Link>
                             </p>
-                        </div>
 
-                        <div className="hero__media">
-                            <img
-                                className="hero__image"
-                                src={banner}
-                                alt="Cannagotchi dashboard preview"
-                            />
+                            <div className="hero__stats" aria-label="Key benefits">
+                                <div className="stat">
+                                    <div className="stat__value">Fast</div>
+                                    <div className="stat__label">quick daily logs</div>
+                                </div>
+                                <div className="stat">
+                                    <div className="stat__value">Clear</div>
+                                    <div className="stat__label">readable plant cards</div>
+                                </div>
+                                <div className="stat">
+                                    <div className="stat__value">Consistent</div>
+                                    <div className="stat__label">cycle reminders</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
-                {/* CONTENT */}
+                {/* ABOUT */}
                 <section className="section" id="about" aria-labelledby="about-title">
                     <div className="container">
                         <header className="section__header">
-                            <h2 id="about-title" className="section__title">
-                                About Cannagotchi
-                            </h2>
+                            <h2 id="about-title" className="section__title">About Cannagotchi</h2>
                             <p className="section__subtitle">
-                                A lightweight grow journal built to be fast to use and easy to
-                                read.
+                                A lightweight grow journal built to be fast to use and easy to read.
                             </p>
                         </header>
 
+                        {/* Feature 1 */}
                         <div className="feature feature--imageRight">
                             <div className="feature__copy">
-                                <h3 className="feature__title">
-                                    Your plants, organized like a real collection
-                                </h3>
+                                <h3 className="feature__title">Your plants, organized like a real collection</h3>
                                 <p className="feature__text">
-                                    Add each plant with strain, genetics, start date, medium, and
-                                    your own notes. Keep everything searchable so you can compare
-                                    runs and learn what actually works for you.
+                                    Add each plant with strain, genetics, start date, medium, and your own notes. Keep everything searchable
+                                    so you can compare runs and learn what actually works for you.
                                 </p>
                                 <ul className="feature__list">
-                                    <li>
-                                        Quick logs for watering, feeding, training, and observations
-                                    </li>
-                                    <li>
-                                        Progress snapshots and notes that stay attached to each
-                                        plant
-                                    </li>
-                                    <li>Clean, readable plant cards that don’t feel cluttered</li>
+                                    <li>Quick logs for watering, feeding, training, and observations</li>
+                                    <li>Progress snapshots and notes tied to each plant</li>
+                                    <li>Clean layout that stays readable as your collection grows</li>
                                 </ul>
                             </div>
 
                             <div className="feature__media">
-                                <img
-                                    className="cardImage"
-                                    src={img1}
-                                    alt="Plant tracking and logs preview"
-                                />
+                                <img className="cardImage" src={img1} alt="Plant tracking and logs preview" />
                             </div>
                         </div>
 
+                        {/* Feature 2 */}
                         <div className="feature feature--imageLeft">
                             <div className="feature__copy">
-                                <h3 className="feature__title">
-                                    Reminders for cycles, harvest windows, and routines
-                                </h3>
+                                <h3 className="feature__title">Reminders for cycles, milestones, and harvest windows</h3>
                                 <p className="feature__text">
-                                    Stay ahead of timing. Cannagotchi helps you estimate key
-                                    milestones based on the cycle you’re running, so you can plan
-                                    training, transitions, and harvest without relying on memory.
+                                    Stay ahead of timing. Cannagotchi helps you estimate key milestones based on your cycle, so you can plan
+                                    transitions and harvest without relying on memory.
                                 </p>
                                 <ul className="feature__list">
-                                    <li>Cycle-based estimates to keep your plan consistent</li>
-                                    <li>Simple warnings so you don’t miss important windows</li>
-                                    <li>Designed to be helpful, not overwhelming</li>
+                                    <li>Cycle-based estimates to keep your routine consistent</li>
+                                    <li>Simple alerts so you don’t miss important windows</li>
+                                    <li>Helpful by design, not overwhelming</li>
                                 </ul>
 
                                 <div className="feature__ctaRow">
                                     <Link className="btn btn--primary" to="/signup">
                                         Start tracking
                                     </Link>
-                                    <span className="muted">
-                                        Takes less than 2 minutes to set up your first plant.
-                                    </span>
+                                    <span className="muted">Takes less than 2 minutes to add your first plant.</span>
                                 </div>
                             </div>
 
                             <div className="feature__media">
-                                <img
-                                    className="cardImage"
-                                    src={img2}
-                                    alt="Predictions and reminders preview"
-                                />
+                                <img className="cardImage" src={img2} alt="Predictions and reminders preview" />
                             </div>
                         </div>
                     </div>
