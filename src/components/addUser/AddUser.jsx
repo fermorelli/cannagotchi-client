@@ -17,7 +17,7 @@ export const AddUser = ()=> {
     const [ isOpen, setIsOpen ] = useState(false);
     const [ success, isSuccess ] = useState(false);
 
-    const back = 'https://cannagotchi-server.vercel.app/'
+    const back = '/api/'
 
     const addUser = (e)=>{
         e.preventDefault();

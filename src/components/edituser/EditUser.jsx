@@ -15,7 +15,7 @@ export const EditUser = ()=> {
     const [ success, isSuccess ] = useState(false);
     const [ data, setData ] = useState([]);
 
-    const back = 'https://cannagotchi-server.vercel.app/'
+    const back = '/api/'
 
     const params = useParams();
     const id = params.id;

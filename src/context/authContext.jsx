@@ -21,7 +21,7 @@ export const AuthProvider = ({children})=>{
     const [ deleted, isDeleted ] = useState(false);
     const [ logged, isLogged ] = useState(false);
 
-    const back = 'https://cannagotchi-server.vercel.app/'
+    const back = '/api/'
 
     const getUsers = async () => {
         const response = await fetch(`${back}users`);

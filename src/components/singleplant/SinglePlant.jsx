@@ -29,7 +29,7 @@ export const SinglePlant = () => {
     const params = useParams();
     const id = params.id;
 
-    const back = 'https://cannagotchi-server.vercel.app/'
+    const back = '/api/'
 
     const navigate = useNavigate();
 

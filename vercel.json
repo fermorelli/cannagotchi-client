@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/:path*",
+        "destination": "https://cannagotchi-server.vercel.app/:path*"
+      }
+    ]
+  }

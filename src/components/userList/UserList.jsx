@@ -21,7 +21,7 @@ export const UserList = ()=> {
 
     const id = localStorage.getItem('id');
 
-    const back = 'https://cannagotchi-server.vercel.app/'
+    const back = '/api/'
 
     const ifPrevData = ()=>{
         if(id.length>0){

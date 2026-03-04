@@ -20,7 +20,7 @@ export const AddPlant = ()=> {
 
     const { authUser, setChange } = useAuth();
 
-    const back = 'https://cannagotchi-server.vercel.app/'
+    const back = '/api/'
 
     const addPlant = (e)=>{
         e.preventDefault();

@@ -24,7 +24,7 @@ export const EditPlant = ()=> {
     const id = params.id;
     const navigate = useNavigate();
 
-    const back = 'https://cannagotchi-server.vercel.app/'
+    const back = '/api/'
 
     const getPlant = () => {
         fetch(`${back}plants/${id}`)

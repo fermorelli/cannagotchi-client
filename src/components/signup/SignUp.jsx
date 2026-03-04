@@ -23,7 +23,7 @@ export const SignUp = ()=> {
 
     const { regNew, isLogged } = useAuth();
 
-    const back = 'https://cannagotchi-server.vercel.app/'
+    const back = '/api/'
 
     const addUser = ()=>{
         fetch(`${back}users`, {
