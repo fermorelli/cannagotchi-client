@@ -94,3 +94,9 @@ form select {
     margin-top: 5px;
     transform: scale(0.55);
 }
+
+@media (max-width: 480px) {
+    .form input select {
+        width: 100%;
+    }
+}

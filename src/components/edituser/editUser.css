@@ -62,3 +62,9 @@
 .formButtons button:hover{
     transform: scale(1.05);
 }
+
+@media (max-width: 480px) {
+    .form input {
+        width: 100%;
+    }
+}

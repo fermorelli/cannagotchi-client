@@ -271,10 +271,30 @@
     object-fit: cover;
 }
 
+.landing {
+    width: 100%;
+    background: #0b0c0f;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* optional but recommended so there's no seam */
+.section {
+    background: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #0b0c0f;
+    overflow-x: hidden;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
     .hero {
-        padding: 4rem 0 3rem;
+        padding: 2rem 0 3rem;
     }
 
     .hero__copy {
