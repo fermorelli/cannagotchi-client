@@ -1,85 +1,45 @@
-.userList {
+.userlist-toolbar {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    align-content: start;
+}
+
+.userlist-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.userlist-card {
+    display: grid;
     gap: 1rem;
 }
 
-.disabled {
-    display: none;
-}
-
-.userCard {
+.userlist-card__header {
     display: flex;
-    flex-direction: column;
-    align-items: baseline;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
-.userCard span {
-    color: aliceblue;
-    font-style: italic;
-}
-
-.header {
+.userlist-card__identity {
     display: flex;
-    margin: 0;
-    gap: 2rem;
     align-items: center;
+    gap: 0.85rem;
 }
 
-.userCard h3 {
-    font-weight: bold;
+.userlist-card__identity strong {
+    display: block;
+    margin-bottom: 0.2rem;
 }
 
-.headerList {
-    display: flex;
-    align-content: center;
-    gap: 2rem;
+.userlist-card__identity span {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
 }
 
-.headerButtons {
-    border: 1px solid red;
+.userlist-card__actions {
+    margin-top: auto;
 }
 
-.headerButtons svg {
-    cursor: pointer;
-}
-
-.icon {
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.modalButtons {
-    display: flex;
-    flex-direction: row;
-    margin-top: 30px;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.modalButtons button {
-    background: var(--color-bg-variant);
-	color: white;
-    padding: 3px 10px;
-    border-radius: 5px;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-}
-
-.editButtons button {
-    background: var(--color-bg-variant);
-	color: white;
-    padding: 3px 10px;
-    border-radius: 5px;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-    transform: scale(0.8);
-    margin-left: 0.5rem;
-    margin-top: 0.2rem;
-}
-
-.disabled {
-    display: none;
+.userlist-modalActions {
+    margin-top: 1.4rem;
 }

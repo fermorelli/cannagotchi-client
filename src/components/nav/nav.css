@@ -1,24 +1,20 @@
-/* Nav uses same max-width idea as Landing */
 .nav {
     position: sticky;
     top: 0;
     z-index: 50;
     width: 100%;
-    height: 64px;
+    min-height: 64px;
     display: flex;
     align-items: center;
-
-    background: rgba(11, 12, 15, 0.85);
-    backdrop-filter: blur(10px);
-
-    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(6, 11, 8, 0.72);
+    backdrop-filter: blur(16px);
 }
 
 .nav__inner {
-    width: min(1280px, 100%);
+    width: min(var(--container-width), 100%);
     margin: 0 auto;
-    padding: 0 1.5rem;
-
+    padding: 0 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,66 +24,61 @@
 .logo {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    padding: 0.5rem 0;
-    color: #fff;
-    text-decoration: none;
+    gap: 0.6rem;
     font-weight: 800;
+    letter-spacing: 0.02em;
 }
 
 .logo svg {
-    font-size: 1.1rem;
+    color: var(--color-accent-strong);
+    font-size: 1.2rem;
 }
 
-/* Desktop links */
 .nav__links {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
-.nav__links a {
-    color: rgba(255, 255, 255, 0.85);
-    text-decoration: none;
-    font-weight: 600;
+.nav__links a,
+.nav__logout {
+    color: rgba(244, 239, 226, 0.84);
+    font-weight: 700;
+    transition: color var(--transition), background var(--transition), border-color var(--transition);
 }
 
-.nav__links a:hover {
-    color: #fff;
+.nav__links a:hover,
+.nav__logout:hover {
+    color: var(--color-text);
 }
 
 .nav__cta {
-    padding: 0.55rem 0.9rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.08);
+    min-height: 2.75rem;
+    padding: 0.6rem 0.95rem;
+    border-radius: 999px;
+    background: rgba(184, 224, 112, 0.12);
+    border: 1px solid rgba(184, 224, 112, 0.2);
+    color: var(--color-accent-strong);
 }
 
 .nav__cta:hover {
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(184, 224, 112, 0.18);
+    color: var(--color-text);
 }
 
 .nav__logout {
-    background: transparent;
-    border: 0;
     padding: 0;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 700;
+    background: transparent;
     cursor: pointer;
 }
 
-.nav__logout:hover {
-    color: #fff;
-}
-
-/* Hamburger button (hidden on desktop) */
 .nav__toggle {
     display: none;
     width: 42px;
     height: 42px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.04);
     cursor: pointer;
     align-items: center;
     justify-content: center;
@@ -98,28 +89,29 @@
 .nav__bar {
     width: 18px;
     height: 2px;
-    background: rgba(255, 255, 255, 0.9);
-    display: block;
-    border-radius: 2px;
+    border-radius: 999px;
+    background: rgba(244, 239, 226, 0.9);
 }
 
-/* Backdrop */
 .nav__backdrop {
     display: none;
     position: fixed;
     inset: 64px 0 0 0;
-    background: rgba(0, 0, 0, 0.45);
     border: 0;
-    padding: 0;
-    z-index: 40;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition);
 }
 
-/* Mobile menu */
-@media (max-width: 760px) {
-    .nav__inner {
-        padding: 0 1rem;
-    }
+.nav__modalActions {
+    margin-top: 1.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
 
+@media (max-width: 760px) {
     .nav__toggle {
         display: inline-flex;
         z-index: 60;
@@ -129,19 +121,16 @@
         position: fixed;
         top: 64px;
         right: 0;
-        width: 80vw;
-        max-width: 320px;
+        width: min(88vw, 320px);
         height: calc(100dvh - 64px);
         padding: 1rem;
-        display: flex;
         flex-direction: column;
         align-items: stretch;
         gap: 0.75rem;
-
-        background: rgba(11, 12, 15, 0.96);
-        border-left: 1px solid rgba(255, 255, 255, 0.10);
-        transform: translateX(105%);
-        transition: transform 160ms ease;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(7, 12, 9, 0.96);
+        transform: translateX(110%);
+        transition: transform var(--transition);
         z-index: 55;
     }
 
@@ -152,31 +141,28 @@
     .nav__links a,
     .nav__logout {
         width: 100%;
+        min-height: 3rem;
+        padding: 0.9rem 1rem;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.04);
         text-align: left;
-        padding: 0.85rem 0.9rem;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.10);
-    }
-
-    .nav__links a:hover,
-    .nav__logout:hover {
-        background: rgba(255, 255, 255, 0.10);
     }
 
     .nav__cta {
-        background: rgba(255, 255, 255, 0.10);
+        color: var(--color-text);
     }
 
     .nav__backdrop {
         display: block;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 160ms ease;
     }
 
     .nav__backdrop.is-open {
         opacity: 1;
         pointer-events: auto;
+    }
+
+    .nav__modalActions {
+        flex-direction: column;
     }
 }

@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-        <Router basename={process.env.PUBLIC_URL}>
+        <Router basename={import.meta.env.BASE_URL}>
           <Nav />
             <Routes>
               <Route path='/' element={<Landing />} exact></Route>

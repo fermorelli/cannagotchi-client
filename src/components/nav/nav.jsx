@@ -1,4 +1,5 @@
 import './nav.css';
+import '../workspace.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext.jsx';
 import { useEffect, useState } from 'react';
@@ -39,14 +40,14 @@ export const Nav = () => {
     return (
         <nav className="nav">
             {isOpen && (
-                <Modal setIsOpen={setIsOpen} modalTitle={!confirm && 'Are you sure you want to exit?'}>
-                    <div className="addModalButtons">
-                        <button onClick={handleLogOut} className={confirm ? 'disabled' : null}>
+                <Modal setIsOpen={setIsOpen} handleClose={handleClose} modalTitle={!confirm && 'Are you sure you want to exit?'}>
+                    <div className="nav__modalActions">
+                        <button type="button" className="workspace-button workspace-button--danger" onClick={handleLogOut}>
                             Yes
                         </button>
-                        <span style={{ cursor: 'pointer' }} onClick={handleClose}>
-                            {!confirm && 'Cancel'}
-                        </span>
+                        <button type="button" className="workspace-button workspace-button--secondary" onClick={handleClose}>
+                            Cancel
+                        </button>
                     </div>
                 </Modal>
             )}
