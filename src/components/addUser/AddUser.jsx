@@ -125,11 +125,11 @@ export const AddUser = () => {
                             <div className="crud-formRow">
                                 <label className="crud-field">
                                     <span>First name</span>
-                                    <input type="text" placeholder="Fernando" {...register('firstName')} />
+                                    <input type="text" placeholder="Alex" autoComplete="given-name" {...register('firstName')} />
                                 </label>
                                 <label className="crud-field">
                                     <span>Last name</span>
-                                    <input type="text" placeholder="Morelli" {...register('lastName')} />
+                                    <input type="text" placeholder="Rivera" autoComplete="family-name" {...register('lastName')} />
                                 </label>
                             </div>
                             {errors.firstName && <span className="crud-fieldError">{errors.firstName.message}</span>}
@@ -137,7 +137,7 @@ export const AddUser = () => {
 
                             <label className="crud-field">
                                 <span>Email</span>
-                                <input type="email" placeholder="you@example.com" {...register('email')} />
+                                <input type="email" placeholder="you@example.com" autoComplete="email" {...register('email')} />
                             </label>
                             {errors.email && <span className="crud-fieldError">{errors.email.message}</span>}
 

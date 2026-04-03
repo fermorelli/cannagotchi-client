@@ -31,4 +31,13 @@ export const schema = Joi.object({
             'string.empty': 'This field is required',
             'string.email': 'Not a valid email format',
         }),
+    password: Joi.string()
+        .min(8)
+        .max(72)
+        .required()
+        .messages({
+            'string.min': 'Password must contain at least 8 characters',
+            'string.max': "Password can't contain more than 72 characters",
+            'string.empty': 'This field is required',
+        }),
 });

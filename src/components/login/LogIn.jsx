@@ -40,13 +40,16 @@ export const LogIn = () => {
         } catch (err) {
             switch (err?.code) {
                 case 'auth/wrong-password':
-                    setErrmsg('Wrong password');
-                    break;
                 case 'auth/user-not-found':
-                    setErrmsg('User not found');
+                case 'auth/invalid-credential':
+                case 'auth/invalid-login-credentials':
+                    setErrmsg('Email or password is incorrect');
                     break;
                 case 'auth/network-request-failed':
                     setErrmsg('Network request failed');
+                    break;
+                case 'auth/too-many-requests':
+                    setErrmsg('Too many attempts. Please wait a moment and try again.');
                     break;
                 default:
                     setErrmsg('Something went wrong. Please try again.');
@@ -133,6 +136,7 @@ export const LogIn = () => {
                                 <input
                                     type="email"
                                     placeholder="you@example.com"
+                                    autoComplete="email"
                                     aria-invalid={errors.email ? 'true' : 'false'}
                                     {...register('email')}
                                 />
@@ -144,6 +148,7 @@ export const LogIn = () => {
                                 <input
                                     type="password"
                                     placeholder="Enter your password"
+                                    autoComplete="current-password"
                                     aria-invalid={errors.password ? 'true' : 'false'}
                                     {...register('password')}
                                 />

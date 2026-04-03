@@ -8,8 +8,6 @@ import { GiChestnutLeaf } from 'react-icons/gi';
 
 export const Nav = () => {
     const [isOpen, setIsOpen] = useState(false); // logout modal
-    const [confirm, setConfirm] = useState(false);
-
     const [menuOpen, setMenuOpen] = useState(false); // mobile menu
 
     const { user, logout } = useAuth();
@@ -24,7 +22,6 @@ export const Nav = () => {
 
     const handleClose = () => {
         setIsOpen(false);
-        setConfirm(false);
     };
 
     const closeMenu = () => setMenuOpen(false);
@@ -38,9 +35,9 @@ export const Nav = () => {
     }, []);
 
     return (
-        <nav className="nav">
+        <>
             {isOpen && (
-                <Modal setIsOpen={setIsOpen} handleClose={handleClose} modalTitle={!confirm && 'Are you sure you want to exit?'}>
+                <Modal setIsOpen={setIsOpen} handleClose={handleClose} modalTitle="Are you sure you want to exit?">
                     <div className="nav__modalActions">
                         <button type="button" className="workspace-button workspace-button--danger" onClick={handleLogOut}>
                             Yes
@@ -52,64 +49,66 @@ export const Nav = () => {
                 </Modal>
             )}
 
-            <div className="nav__inner">
-                <Link to="/" className="logo" onClick={closeMenu}>
-                    <GiChestnutLeaf />
-                    <span>Cannagotchi</span>
-                </Link>
+            <nav className="nav">
+                <div className="nav__inner">
+                    <Link to="/" className="logo" onClick={closeMenu}>
+                        <GiChestnutLeaf />
+                        <span>Cannagotchi</span>
+                    </Link>
 
+                    <button
+                        type="button"
+                        className="nav__toggle"
+                        aria-label="Toggle menu"
+                        aria-expanded={menuOpen}
+                        onClick={() => setMenuOpen((v) => !v)}
+                    >
+                        <span className="nav__bar" />
+                        <span className="nav__bar" />
+                        <span className="nav__bar" />
+                    </button>
+
+                    <div className={`nav__links ${menuOpen ? 'is-open' : ''}`}>
+                        {user ? (
+                            <>
+                                <Link to="/home" onClick={closeMenu}>
+                                    Home
+                                </Link>
+                                <Link to="/plants" onClick={closeMenu}>
+                                    My Plants
+                                </Link>
+                                <button
+                                    type="button"
+                                    className="nav__logout"
+                                    onClick={() => {
+                                        setIsOpen(true);
+                                        closeMenu();
+                                    }}
+                                >
+                                    Log out
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/login" onClick={closeMenu}>
+                                    Log in
+                                </Link>
+                                <Link to="/signup" className="nav__cta" onClick={closeMenu}>
+                                    Sign up
+                                </Link>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                {/* Backdrop for mobile */}
                 <button
                     type="button"
-                    className="nav__toggle"
-                    aria-label="Toggle menu"
-                    aria-expanded={menuOpen}
-                    onClick={() => setMenuOpen((v) => !v)}
-                >
-                    <span className="nav__bar" />
-                    <span className="nav__bar" />
-                    <span className="nav__bar" />
-                </button>
-
-                <div className={`nav__links ${menuOpen ? 'is-open' : ''}`}>
-                    {user ? (
-                        <>
-                            <Link to="/home" onClick={closeMenu}>
-                                Home
-                            </Link>
-                            <Link to="/plants" onClick={closeMenu}>
-                                My Plants
-                            </Link>
-                            <button
-                                type="button"
-                                className="nav__logout"
-                                onClick={() => {
-                                    setIsOpen(true);
-                                    closeMenu();
-                                }}
-                            >
-                                Log out
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/login" onClick={closeMenu}>
-                                Log in
-                            </Link>
-                            <Link to="/signup" className="nav__cta" onClick={closeMenu}>
-                                Sign up
-                            </Link>
-                        </>
-                    )}
-                </div>
-            </div>
-
-            {/* Backdrop for mobile */}
-            <button
-                type="button"
-                className={`nav__backdrop ${menuOpen ? 'is-open' : ''}`}
-                aria-label="Close menu"
-                onClick={closeMenu}
-            />
-        </nav>
+                    className={`nav__backdrop ${menuOpen ? 'is-open' : ''}`}
+                    aria-label="Close menu"
+                    onClick={closeMenu}
+                />
+            </nav>
+        </>
     );
 };

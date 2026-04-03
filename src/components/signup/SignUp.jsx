@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { deleteUser } from 'firebase/auth';
 import { FiClock, FiLayers } from 'react-icons/fi';
 import { GiOakLeaf, GiPlantSeed } from 'react-icons/gi';
 import Modal from '../modal/modal';
-import { schema } from '../addUser/validations';
+import { schema } from './validation';
 import { useAuth } from '../../context/authContext.jsx';
+import { auth } from '../../firebase/firebase';
 import { Loader } from '../loader/loader';
 import { Footer } from '../footer/Footer';
 
@@ -55,17 +57,32 @@ export const SignUp = () => {
         return data.error === false;
     };
 
+    const rollbackCreatedAccount = async () => {
+        if (!auth.currentUser) {
+            return;
+        }
+
+        try {
+            await deleteUser(auth.currentUser);
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
     const onSubmit = async (values) => {
         isFetching(true);
         setErrmsg('');
+        let createdAuthUser = false;
 
         try {
             await regNew(values.email, values.password);
+            createdAuthUser = true;
             const created = await addUser(values);
 
             if (!created) {
+                await rollbackCreatedAccount();
                 isSuccess(false);
-                setErrmsg('Your account could not be fully saved. Please try again.');
+                setErrmsg('Your account could not be fully created. Please try again.');
                 return;
             }
 
@@ -76,12 +93,24 @@ export const SignUp = () => {
         } catch (err) {
             switch (err?.code) {
                 case 'auth/email-already-in-use':
-                    setErrmsg('Mail already in use, please choose another one');
+                    setErrmsg('Email already in use, please choose another one');
                     break;
                 case 'auth/network-request-failed':
                     setErrmsg('Network request failed');
                     break;
+                case 'auth/weak-password':
+                    setErrmsg('Please use a stronger password');
+                    break;
+                case 'auth/invalid-email':
+                    setErrmsg('Please enter a valid email address');
+                    break;
+                case 'auth/operation-not-allowed':
+                    setErrmsg('Email/password sign up is not enabled right now');
+                    break;
                 default:
+                    if (createdAuthUser) {
+                        await rollbackCreatedAccount();
+                    }
                     setErrmsg('Something went wrong. Please try again.');
             }
         } finally {
@@ -185,7 +214,8 @@ export const SignUp = () => {
                                 <span>First name</span>
                                 <input
                                     type="text"
-                                    placeholder="Fernando"
+                                    placeholder="Alex"
+                                    autoComplete="given-name"
                                     aria-invalid={errors.firstName ? 'true' : 'false'}
                                     {...register('firstName')}
                                 />
@@ -196,7 +226,8 @@ export const SignUp = () => {
                                 <span>Last name</span>
                                 <input
                                     type="text"
-                                    placeholder="Morelli"
+                                    placeholder="Rivera"
+                                    autoComplete="family-name"
                                     aria-invalid={errors.lastName ? 'true' : 'false'}
                                     {...register('lastName')}
                                 />
@@ -208,6 +239,7 @@ export const SignUp = () => {
                                 <input
                                     type="email"
                                     placeholder="you@example.com"
+                                    autoComplete="email"
                                     aria-invalid={errors.email ? 'true' : 'false'}
                                     {...register('email')}
                                 />
@@ -218,7 +250,8 @@ export const SignUp = () => {
                                 <span>Password</span>
                                 <input
                                     type="password"
-                                    placeholder="8 to 10 characters"
+                                    placeholder="At least 8 characters"
+                                    autoComplete="new-password"
                                     aria-invalid={errors.password ? 'true' : 'false'}
                                     {...register('password')}
                                 />
