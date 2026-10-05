@@ -24,7 +24,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "node --test src/utils/care.test.mjs src/utils/localGarden.test.mjs src/utils/plants.test.mjs src/components/garden/worldModel.test.mjs tests/api-proxy.test.mjs tests/plant-deletion.test.mjs",
+    "test": "node --test src/utils/care.test.mjs src/utils/localGarden.test.mjs src/utils/plants.test.mjs src/components/garden/worldModel.test.mjs tests/api-proxy.test.mjs tests/plant-deletion.test.mjs tests/signup.test.mjs",
     "preview": "vite preview",
     "start": "vite"
   },

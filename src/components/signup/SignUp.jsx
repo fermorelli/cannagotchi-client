@@ -1,7 +1,7 @@
 import './signup.css';
 import '../auth.css';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { deleteUser } from 'firebase/auth';
@@ -9,6 +9,7 @@ import { FiClock, FiLayers } from 'react-icons/fi';
 import { GiOakLeaf, GiPlantSeed } from 'react-icons/gi';
 import Modal from '../modal/modal';
 import { schema } from './validation';
+import { createAccount } from './createAccount.mjs';
 import { useAuth } from '../../context/authContext.jsx';
 import { auth } from '../../firebase/firebase';
 import { Loader } from '../loader/loader';
@@ -19,14 +20,21 @@ export const SignUp = () => {
     const [success, isSuccess] = useState(false);
     const [fetching, isFetching] = useState(false);
     const [errmsg, setErrmsg] = useState('');
+    const [showPasswords, setShowPasswords] = useState(false);
+    const [accountCreated, setAccountCreated] = useState(false);
+    const submittingRef = useRef(false);
+    const activeRef = useRef(true);
 
     const { regNew, isLogged } = useAuth();
-    const back = '/api/';
 
     const {
         register,
         handleSubmit,
         reset,
+        resetField,
+        watch,
+        getValues,
+        trigger,
         formState: { errors },
     } = useForm({
         mode: 'onBlur',
@@ -36,70 +44,54 @@ export const SignUp = () => {
             lastName: '',
             email: '',
             password: '',
+            confirmPassword: '',
         },
     });
 
-    const addUser = async (values) => {
-        const response = await fetch(`${back}users`, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Access-Control-Allow-Origin': 'https://localhost:3000',
-            },
-            body: JSON.stringify({
-                firstName: values.firstName,
-                lastName: values.lastName,
-                email: values.email,
-            }),
-        });
-
-        const data = await response.json();
-        return data.error === false;
-    };
-
-    const rollbackCreatedAccount = async () => {
-        if (!auth.currentUser) {
-            return;
-        }
-
-        try {
-            await deleteUser(auth.currentUser);
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
+    const password = watch('password');
+    useEffect(() => {
+        if (getValues('confirmPassword')) trigger('confirmPassword');
+    }, [password, getValues, trigger]);
+    useEffect(() => {
+        activeRef.current = true;
+        return () => { activeRef.current = false; };
+    }, []);
 
     const onSubmit = async (values) => {
+        if (submittingRef.current || accountCreated) return;
+        submittingRef.current = true;
         isFetching(true);
         setErrmsg('');
-        let createdAuthUser = false;
 
         try {
-            await regNew(values.email, values.password);
-            createdAuthUser = true;
-            const created = await addUser(values);
-
-            if (!created) {
-                await rollbackCreatedAccount();
-                isSuccess(false);
-                setErrmsg('Your account could not be fully created. Please try again.');
-                return;
-            }
+            await createAccount(values, { registerAccount: regNew, removeAccount: deleteUser, currentUser: () => auth.currentUser });
+            isLogged(true);
+            if (!activeRef.current) return;
 
             isSuccess(true);
-            isLogged(true);
+            setAccountCreated(true);
             setIsOpen(true);
+            setShowPasswords(false);
             reset();
         } catch (err) {
+            if (!activeRef.current) return;
+            isSuccess(false);
+            setAccountCreated(Boolean(err.accountCreated));
+            if (err.accountCreated) {
+                resetField('password');
+                resetField('confirmPassword');
+                setShowPasswords(false);
+            }
             switch (err?.code) {
                 case 'auth/email-already-in-use':
-                    setErrmsg('Email already in use, please choose another one');
+                    setErrmsg('An account could not be created with these details. Try logging in or use another email address.');
                     break;
                 case 'auth/network-request-failed':
                     setErrmsg('Check your connection and try again.');
                     break;
                 case 'auth/weak-password':
-                    setErrmsg('Please use a stronger password');
+                case 'auth/password-does-not-meet-requirements':
+                    setErrmsg('This password does not meet the account security requirements. Choose a longer, unique passphrase.');
                     break;
                 case 'auth/invalid-email':
                     setErrmsg('Please enter a valid email address');
@@ -107,14 +99,21 @@ export const SignUp = () => {
                 case 'auth/operation-not-allowed':
                     setErrmsg('Email/password sign up is not enabled right now');
                     break;
+                case 'auth/too-many-requests':
+                    setErrmsg('Too many attempts. Please wait a moment and try again.');
+                    break;
+                case 'signup/profile-rejected':
+                case 'signup/profile-unconfirmed':
+                case 'signup/rollback-failed':
+                case 'signup/session-changed':
+                    setErrmsg(err.message);
+                    break;
                 default:
-                    if (createdAuthUser) {
-                        await rollbackCreatedAccount();
-                    }
                     setErrmsg('Something went wrong. Please try again.');
             }
         } finally {
-            isFetching(false);
+            submittingRef.current = false;
+            if (activeRef.current) isFetching(false);
         }
     };
 
@@ -207,15 +206,18 @@ export const SignUp = () => {
                             <p>Create your profile and start recording your grow.</p>
                         </div>
 
-                        {errmsg && <div className="auth-alert" role="alert">{errmsg}</div>}
+                        {errmsg && <div className="auth-alert" role="alert">{errmsg}{accountCreated && <Link className="signup-recovery" to="/login">Check account with login</Link>}</div>}
+                        {success && accountCreated && <p className="signup-passwordHint" role="status">Account created. <Link className="signup-recovery" to="/home">Go to dashboard</Link></p>}
 
-                        <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+                        <form className="auth-form" onSubmit={handleSubmit(onSubmit)} noValidate aria-busy={fetching}>
                             <label className="auth-field">
                                 <span>First name</span>
                                 <input
                                     type="text"
                                     placeholder="Alex"
                                     autoComplete="given-name"
+                                    disabled={fetching || accountCreated}
+                                    required
                                     aria-invalid={errors.firstName ? 'true' : 'false'}
                                     aria-describedby={errors.firstName ? 'signup-firstName-error' : undefined}
                                     {...register('firstName')}
@@ -229,6 +231,8 @@ export const SignUp = () => {
                                     type="text"
                                     placeholder="Rivera"
                                     autoComplete="family-name"
+                                    disabled={fetching || accountCreated}
+                                    required
                                     aria-invalid={errors.lastName ? 'true' : 'false'}
                                     aria-describedby={errors.lastName ? 'signup-lastName-error' : undefined}
                                     {...register('lastName')}
@@ -242,6 +246,10 @@ export const SignUp = () => {
                                     type="email"
                                     placeholder="you@example.com"
                                     autoComplete="email"
+                                    autoCapitalize="none"
+                                    spellCheck={false}
+                                    disabled={fetching || accountCreated}
+                                    required
                                     aria-invalid={errors.email ? 'true' : 'false'}
                                     aria-describedby={errors.email ? 'signup-email-error' : undefined}
                                     {...register('email')}
@@ -252,17 +260,43 @@ export const SignUp = () => {
                             <label className="auth-field">
                                 <span>Password</span>
                                 <input
-                                    type="password"
-                                    placeholder="At least 8 characters"
+                                    type={showPasswords ? 'text' : 'password'}
+                                    placeholder="A unique passphrase"
                                     autoComplete="new-password"
+                                    autoCapitalize="none"
+                                    spellCheck={false}
+                                    disabled={fetching || accountCreated}
+                                    required
                                     aria-invalid={errors.password ? 'true' : 'false'}
-                                    aria-describedby={errors.password ? 'signup-password-error' : undefined}
+                                    aria-describedby={`signup-password-hint${errors.password ? ' signup-password-error' : ''}`}
                                     {...register('password')}
                                 />
                             </label>
+                            <p id="signup-password-hint" className="signup-passwordHint">Use 15–128 characters. A unique phrase works well; spaces and symbols are welcome.</p>
                             {errors.password && <span id="signup-password-error" className="auth-fieldError">{errors.password.message}</span>}
 
-                            <button className="auth-submit" type="submit" disabled={fetching}>
+                            <label className="auth-field">
+                                <span>Confirm password</span>
+                                <input
+                                    type={showPasswords ? 'text' : 'password'}
+                                    placeholder="Repeat your password"
+                                    autoComplete="new-password"
+                                    autoCapitalize="none"
+                                    spellCheck={false}
+                                    disabled={fetching || accountCreated}
+                                    required
+                                    aria-invalid={errors.confirmPassword ? 'true' : 'false'}
+                                    aria-describedby={errors.confirmPassword ? 'signup-confirmPassword-error' : undefined}
+                                    {...register('confirmPassword')}
+                                />
+                            </label>
+                            {errors.confirmPassword && <span id="signup-confirmPassword-error" className="auth-fieldError">{errors.confirmPassword.message}</span>}
+                            <label className="signup-passwordToggle">
+                                <input type="checkbox" checked={showPasswords} onChange={(event) => setShowPasswords(event.target.checked)} disabled={fetching || accountCreated} />
+                                <span>Show passwords</span>
+                            </label>
+
+                            <button className="auth-submit" type="submit" disabled={fetching || accountCreated}>
                                 {fetching ? 'Creating account...' : 'Create account'}
                             </button>
                         </form>

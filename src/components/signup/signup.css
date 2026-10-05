@@ -7,3 +7,34 @@
         linear-gradient(180deg, rgba(18, 31, 25, 0.96), rgba(11, 18, 14, 0.98)),
         rgba(18, 31, 25, 0.95);
 }
+
+.signup-passwordHint {
+    margin-top: -0.4rem;
+    color: var(--color-text-muted);
+    font-size: 0.84rem;
+    overflow-wrap: anywhere;
+}
+
+.signup-passwordToggle {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.signup-passwordToggle input {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    accent-color: var(--color-accent);
+}
+
+.signup-recovery {
+    display: block;
+    margin-top: 0.6rem;
+    color: var(--color-accent-strong);
+    text-decoration: underline;
+}

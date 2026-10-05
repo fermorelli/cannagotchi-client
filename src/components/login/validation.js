@@ -12,10 +12,10 @@ export const schema = Joi.object({
             'string.email': 'Enter a valid email address',
         }),
     password: Joi.string()
-        .max(72)
+        .max(128)
         .required()
         .messages({
-            'string.max': "Password can't contain more than 72 characters",
+            'string.max': 'Password must contain at most 128 characters',
             'string.empty': 'This field is required',
             'any.required': 'This field is required',
             'string.base': 'Enter a valid value',

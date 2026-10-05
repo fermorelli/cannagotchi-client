@@ -1,6 +1,5 @@
 import './footer.css';
 import { Link } from 'react-router-dom';
-import { BsFacebook, BsInstagram, BsLinkedin } from 'react-icons/bs';
 import { GiChestnutLeaf } from 'react-icons/gi';
 
 export const Footer = () => {
@@ -25,25 +24,10 @@ export const Footer = () => {
                         <Link to="/faqs">FAQs</Link>
                     </div>
                 </div>
-
-                <div className="footer__group">
-                    <span className="footer__eyebrow">Social</span>
-                    <div className="footer__socials">
-                        <a href="https://www.instagram.com/ffermorelli" target="_blank" rel="noreferrer" aria-label="Instagram">
-                            <BsInstagram />
-                        </a>
-                        <a href="https://www.facebook.com/ilcosme18" target="_blank" rel="noreferrer" aria-label="Facebook">
-                            <BsFacebook />
-                        </a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                            <BsLinkedin />
-                        </a>
-                    </div>
-                </div>
             </div>
 
             <div className="footer__bottom">
-                <span>Copyright Fernando Morelli 2022</span>
+                <span>© {new Date().getFullYear()} Fernando Morelli</span>
                 <span>Built for growers who like order, rhythm, and clean records.</span>
             </div>
         </footer>
