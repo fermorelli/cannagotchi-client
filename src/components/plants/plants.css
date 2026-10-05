@@ -1,16 +1,24 @@
-.plants-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+.workspace-grid.plants-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    align-items: start;
 }
 
 .plants-cardLink {
     display: block;
+    min-width: 0;
+    border-radius: var(--radius-md);
 }
 
 .plants-card {
     min-height: 100%;
     display: grid;
     gap: 1rem;
+    min-width: 0;
+    transition: border-color var(--transition), transform var(--transition);
 }
+
+.plants-card .workspace-card__header { display: grid; grid-template-columns: minmax(0, 1fr); gap: .7rem; margin-bottom: 0; }
+.plants-card .workspace-card__header > .workspace-pill { justify-self: start; padding: 0 0 0 .65rem; border-left: 2px solid var(--color-accent); border-radius: 0; background: transparent; color: var(--color-accent); font-size: .78rem; }
 
 .plants-card:hover {
     border-color: rgba(184, 224, 112, 0.2);
@@ -20,13 +28,21 @@
 .plants-card__title {
     margin-top: 0.65rem;
     font-size: 1.45rem;
+    font-family: var(--font-display);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
 }
 
-.plants-card__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
+.plants-card__metadata {
+    display: grid;
+    gap: .45rem;
+    padding-top: .9rem;
+    border-top: 1px solid var(--color-border);
 }
+
+.plants-card__metadata > div { display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: .65rem; align-items: baseline; }
+.plants-card__metadata dt { color: var(--color-text-muted); font-size: .76rem; }
+.plants-card__metadata dd { text-align: right; color: var(--color-text); font-size: .87rem; font-weight: 600; overflow-wrap: anywhere; }
 
 .plants-card__details {
     display: grid;
@@ -44,4 +60,10 @@
     justify-content: space-between;
     color: var(--color-text-muted);
     font-weight: 700;
+    font-size: .82rem;
+    gap: 1rem;
+    padding-top: .7rem;
+    border-top: 1px solid var(--color-border);
 }
+
+.plants-card__footer svg { flex-shrink: 0; }

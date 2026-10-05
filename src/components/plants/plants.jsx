@@ -32,12 +32,15 @@ export const Plants = () => {
                     <section className="workspace-hero">
                         <div className="workspace-hero__copy">
                             <span className="section-label workspace-kicker">Plant collection</span>
-                            <h1 className="workspace-title">Every plant in one cleaner, easier-to-scan board.</h1>
+                            <h1 className="workspace-title">Your plant collection.</h1>
                             <p className="workspace-subtitle">
-                                Review genetics, cycle age, grow mode, and harvest timing without bouncing through scattered notes.
+                                Every plant, with its grow details, age and estimated harvest date.
                             </p>
 
                             <div className="workspace-actions">
+                                <Link className="workspace-button workspace-button--secondary" to="/garden">
+                                    Garden mode
+                                </Link>
                                 <Link className="workspace-button workspace-button--primary" to="/add-plant">
                                     <FiPlus />
                                     Add new plant
@@ -96,13 +99,11 @@ export const Plants = () => {
                                                 <span className="workspace-pill">{stage}</span>
                                             </div>
 
-                                            <div className="plants-card__chips">
-                                                <span className="workspace-pill workspace-pill--soft">{plant.genetic}</span>
-                                                <span className="workspace-pill workspace-pill--soft">{plant.grow_mode}</span>
-                                                <span className="workspace-pill workspace-pill--warm">
-                                                    {isAutoflower(plant.auto) ? 'Autoflower' : 'Photoperiod'}
-                                                </span>
-                                            </div>
+                                            <dl className="plants-card__metadata">
+                                                <div><dt>Genetics</dt><dd>{plant.genetic}</dd></div>
+                                                <div><dt>Grow mode</dt><dd>{plant.grow_mode}</dd></div>
+                                                <div><dt>Cycle</dt><dd>{isAutoflower(plant.auto) ? 'Autoflower' : 'Photoperiod'}</dd></div>
+                                            </dl>
 
                                             <div className="plants-card__details">
                                                 <div className="workspace-keyValue">

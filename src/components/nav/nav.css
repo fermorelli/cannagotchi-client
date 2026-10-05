@@ -27,6 +27,7 @@
     gap: 0.6rem;
     font-weight: 800;
     letter-spacing: 0.02em;
+    flex-shrink: 0;
 }
 
 .logo svg {
@@ -44,8 +45,15 @@
 .nav__logout {
     color: rgba(244, 239, 226, 0.84);
     font-weight: 700;
+    font-size: .9rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
     transition: color var(--transition), background var(--transition), border-color var(--transition);
 }
+
+.nav__links a:not(.nav__cta) { border-bottom: 2px solid transparent; padding-block: .5rem; }
+.nav__links a.active:not(.nav__cta) { color: var(--color-accent); border-bottom-color: var(--color-accent); }
 
 .nav__links a:hover,
 .nav__logout:hover {
@@ -55,7 +63,7 @@
 .nav__cta {
     min-height: 2.75rem;
     padding: 0.6rem 0.95rem;
-    border-radius: 999px;
+    border-radius: var(--radius-sm);
     background: rgba(184, 224, 112, 0.12);
     border: 1px solid rgba(184, 224, 112, 0.2);
     color: var(--color-accent-strong);
@@ -76,7 +84,7 @@
     display: none;
     width: 42px;
     height: 42px;
-    border-radius: 14px;
+    border-radius: var(--radius-sm);
     border: 1px solid var(--color-border);
     background: rgba(255, 255, 255, 0.04);
     cursor: pointer;
@@ -112,6 +120,10 @@
 }
 
 @media (max-width: 760px) {
+    .nav__links:not(.is-open) {
+        display: none;
+    }
+
     .nav__toggle {
         display: inline-flex;
         z-index: 60;
@@ -129,6 +141,8 @@
         gap: 0.75rem;
         border-left: 1px solid rgba(255, 255, 255, 0.08);
         background: rgba(7, 12, 9, 0.96);
+        overflow-y: auto;
+        overscroll-behavior: contain;
         transform: translateX(110%);
         transition: transform var(--transition);
         z-index: 55;
@@ -143,11 +157,16 @@
         width: 100%;
         min-height: 3rem;
         padding: 0.9rem 1rem;
-        border-radius: 18px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background: rgba(255, 255, 255, 0.04);
+        border-radius: 0;
+        border: 0;
+        border-bottom: 1px solid var(--color-border);
+        background: transparent;
         text-align: left;
+        overflow-wrap: anywhere;
     }
+
+    .nav__links a:not(.nav__cta) { padding: .9rem 1rem; border-bottom: 1px solid var(--color-border); }
+    .nav__links a.active:not(.nav__cta) { border-bottom-color: var(--color-border); border-left: 2px solid var(--color-accent); background: var(--color-surface-soft); padding-left: calc(1rem - 2px); }
 
     .nav__cta {
         color: var(--color-text);

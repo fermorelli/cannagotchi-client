@@ -1,0 +1,105 @@
+.cg-world { --cg-ink:var(--color-text); --cg-cream:#0e1d15; --cg-line:var(--color-border); width:100%; min-width:0; color:var(--cg-ink); border:1px solid var(--color-border); border-radius:6px; background:var(--cg-cream); overflow:hidden; }
+.cg-world-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px; padding:14px 18px; background:#13251b; border-bottom:1px solid var(--color-border); font-size:12px; font-weight:700; }
+.cg-world-location { display:flex; flex-wrap:wrap; align-items:center; gap:9px; min-width:0; }
+.cg-world-location__dot { flex-shrink:0; width:6px; height:6px; background:var(--color-accent); }
+.cg-world-location__sub { padding-left:12px; border-left:1px solid var(--color-border); font-size:12px; font-weight:500; color:var(--color-text-muted); }
+.cg-world-toolbar__plants { color:var(--color-text-muted); font-size:12px; }
+.cg-world-gardens { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 18px; background:#102017; border-bottom:1px solid var(--color-border); }
+.cg-world-gardens__summary { min-width:0; display:flex; flex-direction:column; gap:4px; overflow-wrap:anywhere; }
+.cg-world-gardens__summary strong { color:var(--color-text); font-size:13px; }
+.cg-world-gardens__summary > span { color:var(--color-text-muted); font-size:12px; line-height:1.6; }
+.cg-world-gardens__controls { display:flex; align-items:center; gap:7px; min-width:0; flex:0 0 auto; max-width:100%; }
+.cg-world-gardens__controls button, .cg-world-gardens__controls select { min-height:44px; border:1px solid var(--color-border); border-radius:6px; color:var(--color-text); background:var(--color-bg-deep); font-size:13px; font-weight:700; }
+.cg-world-gardens__controls button { flex-shrink:0; min-width:44px; padding:7px; color:var(--color-accent); cursor:pointer; }
+.cg-world-gardens__controls select { padding:9px 26px 9px 10px; min-width:0; max-width:100%; cursor:pointer; }
+.cg-world-gardens__controls button:hover:not(:disabled) { background:var(--color-surface-strong); border-color:rgba(184,224,112,.45); }
+.cg-world-gardens__controls button:disabled, .cg-world-gardens__controls select:disabled { opacity: .45; cursor: default; }
+.cg-world-gardens__controls button:focus-visible, .cg-world-gardens__controls select:focus-visible { outline:2px solid var(--color-accent); outline-offset:3px; }
+.cg-world-gardens__label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.cg-world-viewport { position: relative; width: 100%; aspect-ratio: 20 / 13; isolation: isolate; outline: none; overflow: hidden; background: #a6bd7f; touch-action: manipulation; }
+.cg-world-viewport:focus-visible { outline: 3px solid #365c47; outline-offset: -3px; }
+.cg-world-map { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.cg-world-sign { position: absolute; left: 58.5%; top: 24.5%; color: #4c624b; font: bold clamp(4px, .65vw, 8px) ui-monospace, Consolas, monospace; letter-spacing: .1em; pointer-events: none; text-shadow: 0 1px #d0dcb2; }
+.cg-world-object { position: absolute; width: 10%; height: 19.23077%; padding: 0; background: none; border: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.cg-world-object .cg-plant-sprite { display: block; width: 100%; height: 100%; overflow: visible; image-rendering: pixelated; filter: drop-shadow(0 2px 0 #385c3413); }
+.cg-world-object:focus-visible { outline: 2px dashed #f7f3cb; outline-offset: 3px; border-radius: 10px; }
+.cg-world-object__name { position: absolute; bottom: -11%; left: 50%; transform: translateX(-50%); max-width: 150%; padding: 3px 6px; border-radius: 4px; border: 1px solid #5a72464d; background: #f8f2d5ee; box-shadow: 0 2px 0 #5a724622; color: #355340; font: 700 clamp(8px, .95vw, 11px) ui-monospace, 'Cascadia Code', Consolas, monospace; line-height: 1.15; text-align: center; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; transition: background .2s ease, transform .2s ease; }
+.cg-world-object.is-empty .cg-world-object__name { background: #e7efcbee; }
+.cg-world-object:hover .cg-world-object__name, .cg-world-object:focus-visible .cg-world-object__name, .cg-world-object.is-near .cg-world-object__name { background: #fffce8; transform: translateX(-50%) translateY(-2px); border-color: #446e48; }
+.cg-world-object__marker { display: none; position: absolute; top: -5%; left: 50%; transform: translateX(-50%); width: 19px; height: 22px; border: 2px solid #416348; background: #fff5d4; color: #416348; box-shadow: 0 2px 0 #30463830; border-radius: 3px; font: 700 13px ui-monospace, monospace; line-height: 16px; text-align: center; z-index: 1; }
+.cg-world-object__marker::after { content: ''; position: absolute; bottom: -4px; left: 5px; width: 4px; height: 4px; background: #fff5d4; border-right: 2px solid #416348; border-bottom: 2px solid #416348; transform: rotate(45deg); }
+.cg-world-object.is-near .cg-world-object__marker, .cg-world-object.is-destination .cg-world-object__marker, .cg-world-object:hover .cg-world-object__marker { display: block; animation: cg-prompt-bob 1.8s ease-in-out infinite; }
+.cg-world-object:disabled { cursor: default; }
+.cg-world-player { position: absolute; width: 5%; height: 11.53846%; pointer-events: none; transition: left 180ms linear, top 180ms linear; }
+.cg-player-sprite { display: block; width: 100%; height: 100%; image-rendering: pixelated; overflow: visible; }
+.cg-world-player__name { position: absolute; bottom: -14%; left: 50%; transform: translateX(-50%); border-radius: 3px; background: #f4f0cd; color: #436451; padding: 1px 3px; font: 700 clamp(5px, .72vw, 8px) ui-monospace, monospace; letter-spacing: .08em; }
+.cg-world-focus-hint { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); z-index:160; width:max-content; max-width:calc(100% - 24px); padding:7px 12px; border-radius:4px; background:rgba(8,22,14,.9); border:1px solid rgba(184,224,112,.25); color:var(--color-text); font:600 12px/1.5 var(--font-sans); text-align:center; pointer-events:none; }
+.cg-world-paused { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); width:max-content; max-width:calc(100% - 24px); background:rgba(8,22,14,.9); color:var(--color-text); border:1px solid var(--color-border); border-radius:4px; padding:7px 12px; z-index:160; font:600 12px/1.5 var(--font-sans); text-align:center; }
+.cg-world-bottom { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:17px 18px; border-top:1px solid var(--color-border); min-height:92px; }
+.cg-world-message { display:flex; align-items:flex-start; gap:12px; min-width:0; flex:1; }
+.cg-world-message__icon { display:flex; align-items:center; justify-content:center; flex-shrink:0; width:30px; height:30px; color:var(--color-accent); font-size:19px; }
+.cg-world-message p { margin:0 0 7px; color:var(--color-text); font-size:13px; font-weight:600; line-height:1.6; overflow-wrap:anywhere; }
+.cg-world-keyboard-hint { display:flex; flex-wrap:wrap; align-items:center; gap:4px; color:var(--color-text-muted); font-size:12px; line-height:1.7; }
+.cg-world-keyboard-hint > span { margin: 0 3px; }
+.cg-world kbd { display:inline-flex; flex-shrink:0; align-items:center; justify-content:center; min-width:19px; height:20px; padding:0 4px; border:1px solid var(--color-border); border-bottom-color:rgba(219,234,221,.3); border-radius:3px; background:var(--color-bg-deep); color:var(--color-text-muted); font:11px ui-monospace,monospace; }
+.cg-world-interact { display:flex; flex-shrink:0; align-items:center; justify-content:center; gap:8px; max-width:100%; min-height:44px; padding:11px 13px; border:1px solid var(--color-accent); border-radius:6px; background:var(--color-accent); color:#102017; font-size:13px; font-weight:800; line-height:1.5; cursor:pointer; transition:background var(--transition); }
+.cg-world-interact:hover:not(:disabled) { background:var(--color-accent-strong); }
+.cg-world-interact > span { font-size: 16px; line-height: 1; }
+.cg-world-interact kbd { color:#102017; background:rgba(16,32,23,.06); border-color:rgba(16,32,23,.25); }
+.cg-world-interact:disabled { color:#89998b; background:var(--color-surface-strong); border-color:var(--color-border); cursor:default; }
+.cg-world-interact:disabled kbd { color:#89998b; border-color:var(--color-border); background:var(--color-bg-deep); }
+.cg-world-touch-controls, .cg-world-touch-hint { display: none; }
+.cg-plant-leaves { transform-origin: 16px 28px; animation: cg-leaf-sway 5s ease-in-out infinite; }
+.cg-world-object:nth-child(3n) .cg-plant-leaves { animation-delay: -1.5s; }
+.cg-world-object:nth-child(3n + 1) .cg-plant-leaves { animation-delay: -3s; }
+.cg-player-sprite.is-walking .cg-player-feet { animation: cg-walk .25s steps(2, end) infinite; }
+.cg-pond-ripples { animation: cg-ripples 3s ease-in-out infinite; }
+.cg-butterfly { animation: cg-butterfly 7s steps(7, end) infinite; transform-origin: 185px 55px; }
+.cg-water-sparkles { animation: cg-sparkle .8s steps(2, end) infinite; }
+@keyframes cg-leaf-sway { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); } }
+@keyframes cg-walk { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
+@keyframes cg-ripples { 0%, 100% { opacity: .6; } 50% { opacity: 1; transform: translateX(2px); } }
+@keyframes cg-prompt-bob { 0%, 100% { margin-top: 0; } 50% { margin-top: -4px; } }
+@keyframes cg-sparkle { 50% { opacity: .3; transform: translateY(-2px); } }
+@keyframes cg-butterfly { 0%, 100% { translate: 0 0; } 40% { translate: 5px -3px; } 70% { translate: -3px 2px; } }
+.cg-world-message > div {min-width:0;}
+.cg-world-dpad {display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:3px;flex-shrink:0;}
+.cg-world-dpad button {display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:6px;background:var(--color-surface-strong);color:var(--color-accent);font:700 21px var(--font-sans);touch-action:none;user-select:none;cursor:pointer;}
+.cg-world-dpad button:active {background:#2a4431;border-color:var(--color-accent);}
+.cg-world-dpad__up {grid-area:1 / 2;}
+.cg-world-dpad__left {grid-area:2 / 1;}
+.cg-world-dpad__right {grid-area:2 / 3;}
+.cg-world-dpad__down {grid-area:3 / 2;}
+.cg-world-dpad__center {grid-area:2 / 2;display:flex;align-items:center;justify-content:center;color:#697e6a;}
+@media (max-width:750px) {
+    .cg-world-toolbar {padding:12px;}
+    .cg-world-gardens {align-items:stretch;flex-direction:column;gap:12px;padding:12px;}
+    .cg-world-gardens__controls {width:100%;}
+    .cg-world-gardens__controls select {flex:1;min-width:0;}
+    .cg-world-location__sub {display:none;}
+    .cg-world-object__name {font-size:clamp(7px,1.45vw,10px);padding:2px 4px;max-width:170%;}
+    .cg-world-object__marker {width:16px;height:18px;font-size:11px;line-height:13px;}
+    .cg-world-object__marker::after {left:4px;}
+    .cg-world-sign {font-size:5px;}
+    .cg-world-bottom {padding:14px 12px;gap:10px;flex-wrap:wrap;}
+    .cg-world-message {gap:8px;flex:1 1 220px;}
+    .cg-world-message p {font-size:12px;}
+    .cg-world-message__icon {width:24px;height:27px;font-size:16px;}
+    .cg-world-keyboard-hint {display:none;}
+    .cg-world-touch-hint {display:block;color:var(--color-text-muted);font-size:12px;line-height:1.7;}
+    .cg-world-interact kbd {display:none;}
+    .cg-world-touch-controls {display:flex;justify-content:space-between;align-items:center;padding:8px 18px 18px;gap:20px;}
+    .cg-world-touch-controls p {color:var(--color-text-muted);text-align:right;font-size:12px;line-height:1.8;}
+    .cg-world-focus-hint {font-size:11px;padding:5px 8px;bottom:6px;}
+}
+@media (max-width:420px) {
+    .cg-world-bottom {align-items:stretch;}
+    .cg-world-message {flex:1 1 100%;}
+    .cg-world-interact {width:100%;}
+    .cg-world-touch-controls {padding:8px 12px 16px;gap:12px;}
+}
+@media (hover:none) and (min-width:751px) {
+    .cg-world-touch-controls {display:flex;justify-content:center;padding:18px;}
+    .cg-world-touch-controls p {display:none;}
+}
+@media (prefers-reduced-motion: reduce) { .cg-world *, .cg-plant-leaves { animation: none !important; transition: none !important; } }

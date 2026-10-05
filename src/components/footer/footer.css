@@ -72,6 +72,7 @@
 
 .footer__socials {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.9rem;
 }
 
@@ -81,7 +82,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
+    border-radius: var(--radius-sm);
     border: 1px solid var(--color-border);
     background: rgba(255, 255, 255, 0.04);
     font-size: 1rem;
@@ -95,10 +96,14 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
     color: var(--color-text-muted);
     font-size: 0.83rem;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
+
+.footer__inner > * { min-width: 0; overflow-wrap: anywhere; }
 
 @media (max-width: 900px) {
     .footer__inner {

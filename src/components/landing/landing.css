@@ -1,35 +1,6 @@
-.landing {
-    overflow: hidden;
-}
-
 .landing-hero {
     padding: 3.8rem 0 4.25rem;
     position: relative;
-}
-
-.landing-hero::before,
-.landing-hero::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    filter: blur(12px);
-}
-
-.landing-hero::before {
-    width: 22rem;
-    height: 22rem;
-    top: -6rem;
-    right: -5rem;
-    background: rgba(184, 224, 112, 0.11);
-}
-
-.landing-hero::after {
-    width: 16rem;
-    height: 16rem;
-    left: -4rem;
-    bottom: 2rem;
-    background: rgba(242, 201, 117, 0.09);
 }
 
 .landing-hero__inner {
@@ -48,7 +19,7 @@
 .landing-showcase__header h2 {
     font-family: var(--font-display);
     font-weight: 700;
-    line-height: 0.98;
+    line-height: 1.08;
     letter-spacing: -0.04em;
 }
 
@@ -84,20 +55,28 @@
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
-    border-radius: 999px;
+    border-radius: var(--radius-sm);
     border: 1px solid transparent;
     font-weight: 800;
+    max-width: 100%;
+    text-align: center;
+    overflow-wrap: anywhere;
     transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
 }
+
+.landing-btn svg { flex-shrink: 0; }
+.landing-hero__inner > *, .landing-hero__visual > *, .landing-story__inner > *, .landing-grid > *, .landing-plantCard > *, .landing-cta__panel > * { min-width: 0; }
+.landing :is(h1, h2, h3, strong, p, .landing-photoCard__caption) { overflow-wrap: anywhere; }
+.landing-cta__actions { flex-shrink: 0; }
 
 .landing-btn:hover {
     transform: translateY(-1px);
 }
 
 .landing-btn--primary {
-    background: linear-gradient(135deg, var(--color-accent-strong), var(--color-accent));
+    background: var(--color-accent);
     color: #102017;
-    box-shadow: 0 20px 36px rgba(184, 224, 112, 0.16);
+    box-shadow: none;
 }
 
 .landing-btn--ghost {
@@ -133,9 +112,12 @@
 
 .landing-hero__proof article {
     min-height: 100%;
-    padding: 1rem;
-    border-radius: 22px;
-    background: rgba(255, 255, 255, 0.04);
+    padding: 1rem 0;
+    border-radius: 0;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    box-shadow: none;
 }
 
 .landing-hero__proof strong {
@@ -155,7 +137,7 @@
 
 .landing-showcase {
     padding: 1.4rem;
-    border-radius: 32px;
+    border-radius: var(--radius-lg);
     background:
         linear-gradient(180deg, rgba(19, 35, 28, 0.95), rgba(10, 18, 15, 0.96)),
         rgba(19, 35, 28, 0.94);
@@ -185,13 +167,12 @@
 }
 
 .landing-showcase__badge {
-    padding: 0.55rem 0.8rem;
-    border-radius: 999px;
-    background: rgba(184, 224, 112, 0.12);
+    padding: 0.2rem 0 0.2rem 0.65rem;
+    border-left: 2px solid var(--color-accent);
     color: var(--color-accent-strong);
     font-size: 0.82rem;
     font-weight: 800;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
 }
 
 .landing-showcase__metrics {
@@ -203,10 +184,8 @@
 
 .landing-showcase__metrics article,
 .landing-plantCard {
-    padding: 0.95rem;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0.95rem 0;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .landing-showcase__metrics span,
@@ -234,23 +213,20 @@
 }
 
 .landing-plantCard__status {
-    padding: 0.45rem 0.7rem;
-    border-radius: 999px;
-    background: rgba(184, 224, 112, 0.12);
+    padding: 0.2rem 0;
     color: var(--color-accent-strong);
     font-weight: 800;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
 }
 
 .landing-plantCard__status.is-warm {
-    background: rgba(242, 201, 117, 0.12);
     color: var(--color-accent-warm);
 }
 
 .landing-photoCard {
     position: relative;
     overflow: hidden;
-    border-radius: 30px;
+    border-radius: var(--radius-lg);
     min-height: 21rem;
 }
 
@@ -329,7 +305,7 @@
 
 .landing-grid__card {
     padding: 1.35rem;
-    border-radius: 26px;
+    border-radius: var(--radius-md);
     background: rgba(255, 255, 255, 0.04);
 }
 
@@ -357,12 +333,15 @@
 
 .landing-story__media {
     position: relative;
-    min-height: 34rem;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
 }
 
 .landing-story__media img {
     height: 100%;
-    border-radius: 32px;
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-card);
 }
@@ -373,7 +352,7 @@
     bottom: 1.2rem;
     max-width: 19rem;
     padding: 1rem 1.1rem;
-    border-radius: 22px;
+    border-radius: var(--radius-md);
     background: rgba(8, 17, 13, 0.78);
     backdrop-filter: blur(12px);
 }
@@ -439,7 +418,7 @@
 
 .landing-cta__panel {
     padding: 1.8rem;
-    border-radius: 34px;
+    border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -490,7 +469,7 @@
     }
 
     .landing-story__media {
-        min-height: 24rem;
+        min-height: 0;
     }
 }
 
@@ -524,6 +503,8 @@
     .landing-photoCard,
     .landing-showcase,
     .landing-cta__panel {
-        border-radius: 24px;
+        border-radius: var(--radius-md);
     }
+
+    .landing-story__floating { left: 1rem; right: 1rem; bottom: 1rem; max-width: none; }
 }

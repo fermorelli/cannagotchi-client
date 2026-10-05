@@ -109,24 +109,24 @@ export const EditUser = () => {
                     <aside className="crud-side">
                         <div>
                             <span className="section-label crud-side__eyebrow">Edit user</span>
-                            <h1 className="crud-side__title">Refine the profile without breaking the clean structure.</h1>
+                            <h2 className="crud-side__title">Make the details yours.</h2>
                             <p className="crud-side__copy">
-                                Keep profile records updated so names, emails, and access details stay consistent across the app.
+                                Update this profile's name and email whenever the details change.
                             </p>
                         </div>
 
                         <div className="crud-side__list">
                             <article className="crud-side__item">
-                                <strong>Readable user list</strong>
-                                <p>Accurate profile data makes the management screens much easier to scan later.</p>
+                                <strong>Profile name</strong>
+                                <p>The name appears on the dashboard and in the user list.</p>
                             </article>
                             <article className="crud-side__item">
                                 <strong>Quick corrections</strong>
                                 <p>Update the details here and return straight to the list view when you are done.</p>
                             </article>
                             <article className="crud-side__item">
-                                <strong>Consistent account records</strong>
-                                <p>Editing inside the same visual system keeps the admin flow feeling much more polished.</p>
+                                <strong>Review your changes</strong>
+                                <p>Check the name and email before saving the updated profile.</p>
                             </article>
                         </div>
                     </aside>
@@ -147,22 +147,22 @@ export const EditUser = () => {
                                 <form className="crud-form" onSubmit={handleSubmit(onSubmit)}>
                                     <div className="crud-formRow">
                                         <label className="crud-field">
-                                            <span>First name</span>
-                                            <input type="text" {...register('firstName')} />
+                                            <span id="edit-user-first-label">First name</span>
+                                            <input type="text" aria-labelledby="edit-user-first-label" aria-invalid={Boolean(errors.firstName)} aria-describedby={errors.firstName ? 'edit-user-first-error' : undefined} {...register('firstName')} />
+                                            {errors.firstName && <span id="edit-user-first-error" className="crud-fieldError" role="alert">{errors.firstName.message}</span>}
                                         </label>
                                         <label className="crud-field">
-                                            <span>Last name</span>
-                                            <input type="text" {...register('lastName')} />
+                                            <span id="edit-user-last-label">Last name</span>
+                                            <input type="text" aria-labelledby="edit-user-last-label" aria-invalid={Boolean(errors.lastName)} aria-describedby={errors.lastName ? 'edit-user-last-error' : undefined} {...register('lastName')} />
+                                            {errors.lastName && <span id="edit-user-last-error" className="crud-fieldError" role="alert">{errors.lastName.message}</span>}
                                         </label>
                                     </div>
-                                    {errors.firstName && <span className="crud-fieldError">{errors.firstName.message}</span>}
-                                    {errors.lastName && <span className="crud-fieldError">{errors.lastName.message}</span>}
 
                                     <label className="crud-field">
-                                        <span>Email</span>
-                                        <input type="email" {...register('email')} />
+                                        <span id="edit-user-email-label">Email</span>
+                                        <input type="email" aria-labelledby="edit-user-email-label" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'edit-user-email-error' : undefined} {...register('email')} />
+                                        {errors.email && <span id="edit-user-email-error" className="crud-fieldError" role="alert">{errors.email.message}</span>}
                                     </label>
-                                    {errors.email && <span className="crud-fieldError">{errors.email.message}</span>}
 
                                     <div className="crud-actions">
                                         <button className="crud-button crud-button--primary" type="submit" disabled={isSubmitting}>

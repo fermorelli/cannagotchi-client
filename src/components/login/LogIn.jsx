@@ -46,7 +46,7 @@ export const LogIn = () => {
                     setErrmsg('Email or password is incorrect');
                     break;
                 case 'auth/network-request-failed':
-                    setErrmsg('Network request failed');
+                    setErrmsg('Check your connection and try again.');
                     break;
                 case 'auth/too-many-requests':
                     setErrmsg('Too many attempts. Please wait a moment and try again.');
@@ -69,7 +69,7 @@ export const LogIn = () => {
                         <div>
                             <span className="section-label auth-kicker">Secure grow workspace</span>
                             <div className="auth-heading">
-                                <h1>Pick up your grow exactly where you left it.</h1>
+                                <h2>Welcome back to your grow.</h2>
                                 <p>
                                     Log back in to review plant history, update current runs, and keep your cultivation timeline moving.
                                 </p>
@@ -124,11 +124,11 @@ export const LogIn = () => {
                     <section className="auth-card">
                         <div className="auth-card__header">
                             <span className="section-label">Welcome back</span>
-                            <h2>Log in</h2>
+                            <h1>Log in</h1>
                             <p>Access your plants, notes, and next tasks from a calmer, more organized workspace.</p>
                         </div>
 
-                        {errmsg && <div className="auth-alert">{errmsg}</div>}
+                        {errmsg && <div className="auth-alert" role="alert">{errmsg}</div>}
 
                         <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
                             <label className="auth-field">
@@ -138,10 +138,11 @@ export const LogIn = () => {
                                     placeholder="you@example.com"
                                     autoComplete="email"
                                     aria-invalid={errors.email ? 'true' : 'false'}
+                                    aria-describedby={errors.email ? 'login-email-error' : undefined}
                                     {...register('email')}
                                 />
                             </label>
-                            {errors.email && <span className="auth-fieldError">{errors.email.message}</span>}
+                            {errors.email && <span id="login-email-error" className="auth-fieldError">{errors.email.message}</span>}
 
                             <label className="auth-field">
                                 <span>Password</span>
@@ -150,10 +151,11 @@ export const LogIn = () => {
                                     placeholder="Enter your password"
                                     autoComplete="current-password"
                                     aria-invalid={errors.password ? 'true' : 'false'}
+                                    aria-describedby={errors.password ? 'login-password-error' : undefined}
                                     {...register('password')}
                                 />
                             </label>
-                            {errors.password && <span className="auth-fieldError">{errors.password.message}</span>}
+                            {errors.password && <span id="login-password-error" className="auth-fieldError">{errors.password.message}</span>}
 
                             <button className="auth-submit" type="submit" disabled={fetching}>
                                 {fetching ? 'Logging in...' : 'Log in'}

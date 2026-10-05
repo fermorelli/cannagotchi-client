@@ -7,17 +7,21 @@
     justify-content: center;
     padding: 1rem;
     background: rgba(4, 9, 7, 0.72);
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(6px);
 }
 
 .modalContainer {
     width: min(100%, 34rem);
-    padding: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
+    padding: 24px;
+    color: var(--color-text);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background:
-        linear-gradient(180deg, rgba(21, 37, 30, 0.98), rgba(12, 21, 17, 0.98)),
-        rgba(12, 21, 17, 0.95);
+    border-radius: 10px;
+    background: var(--color-surface-strong);
     box-shadow: var(--shadow-card);
     text-align: left;
 }
@@ -28,22 +32,26 @@
     justify-content: space-between;
     gap: 1rem;
     margin-bottom: 1rem;
+    flex-shrink: 0;
 }
 
-.modalHeader p {
+.modalHeader h2 {
+    min-width: 0;
+    overflow-wrap: anywhere;
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1.1;
+    font-size: 24px;
+    line-height: 1.3;
 }
 
 .modalClose {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
+    border-radius: 6px;
     border: 1px solid var(--color-border);
     color: var(--color-text-muted);
     cursor: pointer;
@@ -57,11 +65,19 @@
 }
 
 .modalBody {
+    min-height: 0;
+    min-width: 0;
     color: var(--color-text-muted);
     overflow: auto;
-    max-height: calc(90vh - 7rem);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
 }
 
 .modalBody p {
     color: var(--color-text-muted);
 }
+
+.modalContainer:focus {outline:none;}
+.modalContainer :focus-visible {outline:2px solid var(--color-accent);outline-offset:3px;}
+@media(max-width:520px) {.modalBackground{padding:12px;}.modalContainer{padding:20px;max-height:calc(100dvh - 24px);}.modalHeader{gap:12px;}.modalHeader h2{font-size:22px;}}

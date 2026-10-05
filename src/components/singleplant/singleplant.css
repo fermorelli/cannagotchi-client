@@ -5,13 +5,15 @@
     border: 0;
 }
 
-.singleplant-hero {
+.workspace-hero.singleplant-hero {
     align-items: center;
+    grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr);
 }
 
 .singleplant-visual {
     display: grid;
     gap: 1rem;
+    min-width: 0;
 }
 
 .singleplant-visual__frame {
@@ -19,7 +21,7 @@
     place-items: center;
     padding: 1.25rem;
     overflow: hidden;
-    border-radius: 28px;
+    border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.08);
     background:
         radial-gradient(circle at top, rgba(184, 224, 112, 0.14), transparent 50%),
@@ -31,11 +33,12 @@
     aspect-ratio: 1 / 1;
     object-fit: contain;
     image-rendering: pixelated;
+    max-width: 280px;
 }
 
 .singleplant-visual__caption {
     padding: 1rem;
-    border-radius: 22px;
+    border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.04);
 }
@@ -53,18 +56,22 @@
 
 .singleplant-summary {
     max-width: 36rem;
+    min-width: 0;
 }
 
-.singleplant-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
+.singleplant-details {
+    display: grid;
+    gap: .7rem;
     margin-top: 1.25rem;
 }
 
+.singleplant-details > div { display: grid; grid-template-columns: 95px minmax(0, 1fr); gap: 1rem; align-items: baseline; }
+.singleplant-details dt { color: var(--color-text-muted); font-size: .82rem; }
+.singleplant-details dd { font-weight: 600; overflow-wrap: anywhere; }
+
 .singleplant-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: 1rem;
 }
 
@@ -76,9 +83,10 @@
 
 .singleplant-stat {
     padding: 1rem;
-    border-radius: 22px;
+    border-radius: var(--radius-md);
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(255, 255, 255, 0.04);
+    min-width: 0;
 }
 
 .singleplant-stat span {
@@ -91,11 +99,13 @@
 .singleplant-stat strong {
     display: block;
     font-size: 1.1rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
 }
 
 .singleplant-timeline {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 20px minmax(0, 1fr);
     gap: 0.8rem;
     align-items: flex-start;
     padding: 0.95rem 0;
@@ -122,13 +132,29 @@
 }
 
 @media (max-width: 980px) {
-    .singleplant-grid {
+    .singleplant-grid, .workspace-hero.singleplant-hero {
         grid-template-columns: 1fr;
     }
+    .singleplant-summary { order: -1; max-width: none; }
+    .singleplant-visual { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
 }
 
 @media (max-width: 640px) {
     .singleplant-stats {
         grid-template-columns: 1fr;
     }
+    .singleplant-visual { grid-template-columns: 1fr; }
+    .singleplant-visual__frame img { max-width: 220px; }
+}
+
+.workspace-button.singleplant-harvest {
+    color: var(--color-accent-warm);
+    border-color: rgba(242, 201, 117, .35);
+    background: rgba(242, 201, 117, .06);
+}
+
+.workspace-button.singleplant-harvest:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent-warm);
+    background: rgba(242, 201, 117, .14);
 }

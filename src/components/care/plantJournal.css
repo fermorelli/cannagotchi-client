@@ -1,0 +1,87 @@
+.plant-journal {
+    --journal-ink: var(--color-text, #f4efe2);
+    --journal-muted: var(--color-text-muted, #b8c4b7);
+    --journal-border: var(--color-border, rgba(219, 234, 221, .14));
+    container: plant-journal / inline-size;
+    width: 100%;
+    min-width: 0;
+    padding: clamp(16px, 3vw, 24px);
+    color: var(--journal-ink);
+    color-scheme: dark;
+    background: var(--color-surface-strong, #14241d);
+    border: 1px solid var(--journal-border);
+    border-radius: 10px;
+    text-align: left;
+}
+
+.plant-journal__heading { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+.plant-journal__heading h2 { font-family: var(--font-display); font-size: 22px; line-height: 1.3; color: var(--journal-ink); letter-spacing: -.4px; }
+.plant-journal__emblem { display: grid; place-items: center; color: var(--color-accent); font-size: 22px; }
+.plant-journal__eyebrow { display: block; margin-bottom: 4px; font-size: 12px; line-height: 1.5; color: var(--journal-muted); }
+.plant-journal__count { color: var(--journal-muted); font-size: 12px; line-height: 1.5; white-space: nowrap; }
+.plant-journal p { color: var(--journal-muted); }
+.plant-journal__local-note { margin: 14px 0 20px; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.plant-journal__stage { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 210px); align-items: center; gap: 16px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--journal-border); }
+.plant-journal__stage > div { min-width: 0; }
+.plant-journal__stage p { font-size: 12px; line-height: 1.6; }
+.plant-journal label { display: block; margin-bottom: 7px; font-size: 13px; line-height: 1.5; font-weight: 700; color: var(--journal-ink); }
+.plant-journal select, .plant-journal input, .plant-journal textarea { display: block; width: 100%; max-width: 100%; min-width: 0; min-height: 42px; padding: 10px 12px; border: 1px solid var(--journal-border); border-radius: 6px; background: var(--color-bg-deep, #050a08); color: var(--journal-ink); font-size: 14px; line-height: 1.5; }
+.plant-journal input[type="datetime-local"] { inline-size: 100%; max-inline-size: 100%; }
+.plant-journal input[type="datetime-local"]::-webkit-datetime-edit { min-width: 0; padding: 0; }
+.plant-journal input[type="datetime-local"]::-webkit-calendar-picker-indicator { margin-left: 4px; }
+.plant-journal textarea { min-height: 84px; resize: vertical; overflow-wrap: anywhere; }
+.plant-journal :is(select, input, textarea, button):focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.plant-journal :is(select, input, textarea, button):disabled { opacity: .5; cursor: default; }
+.plant-journal__form { display: grid; gap: 14px; min-width: 0; }
+.plant-journal__fields { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 14px; }
+.plant-journal__field { min-width: 0; }
+.plant-journal__submit-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.plant-journal__status { flex: 1 1 180px; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.plant-journal__button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-height: 42px; padding: 10px 16px; flex-shrink: 0; border: 1px solid transparent; border-radius: 6px; background: var(--color-accent); color: #102017; font-size: 14px; font-weight: 700; cursor: pointer; }
+.plant-journal__button:hover { background: var(--color-accent-strong); }
+.plant-journal .plant-journal__warning { padding: 12px 14px; border: 1px solid rgba(242, 201, 117, .32); border-radius: 6px; background: #2d251b; color: #f2d9a5; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.plant-journal__history { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--journal-border); }
+.plant-journal__history h3 { margin-bottom: 10px; color: var(--journal-ink); font-family: var(--font-display); font-size: 16px; line-height: 1.5; }
+.plant-journal__empty { font-size: 13px; line-height: 1.7; }
+.plant-journal__entries { display: grid; min-width: 0; }
+.plant-journal__entry { display: grid; grid-template-columns: 24px minmax(0, 1fr) 36px; align-items: start; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--journal-border); }
+.plant-journal__entry:last-child { border-bottom: 0; }
+.plant-journal__entry-icon { display: grid; place-items: center; height: 28px; color: var(--color-accent); font-size: 17px; }
+.plant-journal__entry--water .plant-journal__entry-icon { color: #9dccd3; }
+.plant-journal__entry--measurement .plant-journal__entry-icon { color: var(--color-accent-warm); }
+.plant-journal__entry-content { min-width: 0; }
+.plant-journal__entry-content strong { display: block; font-size: 14px; line-height: 1.5; color: var(--journal-ink); overflow-wrap: anywhere; }
+.plant-journal__entry-content time { display: block; font-size: 12px; line-height: 1.6; color: var(--journal-muted); margin-top: 3px; overflow-wrap: anywhere; }
+.plant-journal__entry-content p { font-size: 13px; line-height: 1.7; margin-top: 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.plant-journal__remove { display: grid; place-items: center; width: 36px; min-height: 36px; color: var(--journal-muted); border: 1px solid transparent; border-radius: 6px; cursor: pointer; }
+.plant-journal__remove:hover { color: var(--color-danger); background: rgba(255, 141, 122, .09); border-color: rgba(255, 141, 122, .2); }
+.plant-journal__remove-confirm { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; font-size: 12px; line-height: 1.6; }
+.plant-journal__remove-confirm span { flex-basis: 100%; overflow-wrap: anywhere; }
+.plant-journal__remove-confirm button { min-height: 34px; padding: 6px 12px; color: var(--journal-ink); background: var(--color-bg); border: 1px solid var(--journal-border); border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; }
+.plant-journal__remove-confirm button:first-of-type { color: var(--color-danger); }
+.plant-journal__remove-confirm button:hover { background: var(--color-surface-soft); }
+.plant-journal__more { display: block; margin: 14px 0 0; padding: 6px 0; color: var(--color-accent); font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+
+@container plant-journal (max-width: 520px) {
+    .plant-journal__stage, .plant-journal__fields { grid-template-columns: minmax(0, 1fr); }
+    .plant-journal__stage { gap: 10px; }
+    .plant-journal__submit-row { align-items: stretch; flex-direction: column; }
+    .plant-journal__status { flex-basis: auto; }
+    .plant-journal__button { width: 100%; }
+}
+
+@container plant-journal (max-width: 340px) {
+    .plant-journal__heading { grid-template-columns: 24px minmax(0, 1fr); gap: 8px 10px; }
+    .plant-journal__count { grid-column: 2; }
+    .plant-journal__entry { grid-template-columns: 20px minmax(0, 1fr) 32px; gap: 7px; }
+    .plant-journal__remove { width: 32px; }
+}
+
+@media (max-width: 520px) {
+    .plant-journal select, .plant-journal input, .plant-journal textarea { font-size: 16px; min-height: 44px; }
+    .plant-journal__stage, .plant-journal__fields { grid-template-columns: minmax(0, 1fr); }
+    .plant-journal__stage { gap: 10px; }
+    .plant-journal__submit-row { align-items: stretch; flex-direction: column; }
+    .plant-journal__status { flex-basis: auto; }
+    .plant-journal__button { width: 100%; }
+}

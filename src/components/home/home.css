@@ -1,12 +1,13 @@
 .home-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: 1rem;
 }
 
 .home-sidebar {
     display: grid;
     gap: 1rem;
+    min-width: 0;
 }
 
 .home-profilePanel {
@@ -20,9 +21,14 @@
     margin-bottom: 1rem;
 }
 
+.home-profileHeader > div:last-child { min-width: 0; }
+.home-profileHeader .workspace-note { overflow-wrap: anywhere; }
+
 .home-profileName {
     display: block;
     font-size: 1.2rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
 }
 
 .home-highlights {
@@ -33,11 +39,11 @@
 
 .home-highlight {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 20px minmax(0, 1fr);
     gap: 0.8rem;
     align-items: flex-start;
     padding: 0.9rem;
-    border-radius: 20px;
+    border-radius: var(--radius-md);
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.06);
 }

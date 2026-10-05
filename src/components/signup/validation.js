@@ -11,7 +11,9 @@ export const schema = Joi.object({
         .messages({
             'string.min': 'First name must contain at least 2 letters',
             'string.empty': 'This field is required',
-            'string.pattern.base': 'Not a valid name',
+            'any.required': 'This field is required',
+            'string.base': 'Enter a valid value',
+            'string.pattern.base': 'Use letters, spaces, apostrophes or hyphens',
         }),
     lastName: Joi.string()
         .trim()
@@ -21,7 +23,9 @@ export const schema = Joi.object({
         .messages({
             'string.min': 'Last name must contain at least 2 letters',
             'string.empty': 'This field is required',
-            'string.pattern.base': 'Not a valid name',
+            'any.required': 'This field is required',
+            'string.base': 'Enter a valid value',
+            'string.pattern.base': 'Use letters, spaces, apostrophes or hyphens',
         }),
     email: Joi.string()
         .trim()
@@ -29,7 +33,9 @@ export const schema = Joi.object({
         .required()
         .messages({
             'string.empty': 'This field is required',
-            'string.email': 'Not a valid email format',
+            'any.required': 'This field is required',
+            'string.base': 'Enter a valid value',
+            'string.email': 'Enter a valid email address',
         }),
     password: Joi.string()
         .min(8)
@@ -39,5 +45,7 @@ export const schema = Joi.object({
             'string.min': 'Password must contain at least 8 characters',
             'string.max': "Password can't contain more than 72 characters",
             'string.empty': 'This field is required',
+            'any.required': 'This field is required',
+            'string.base': 'Enter a valid value',
         }),
 });

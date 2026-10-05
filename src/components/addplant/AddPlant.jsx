@@ -13,8 +13,7 @@ export const AddPlant = () => {
     const [success, isSuccess] = useState(false);
     const [errmsg, setErrmsg] = useState('');
 
-    const { authUser, setChange } = useAuth();
-    const back = '/api/';
+    const { authUser, createPlant, dataError, loadingData, retryData } = useAuth();
 
     const {
         register,
@@ -37,51 +36,30 @@ export const AddPlant = () => {
         setErrmsg('');
 
         try {
-            const response = await fetch(`${back}plants`, {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://localhost:3000',
-                },
-                body: JSON.stringify({
-                    user_id: authUser._id,
-                    plant_name: values.plantName,
-                    genetic: values.genetic,
-                    grow_mode: values.growMode,
-                    auto: values.auto,
-                    germination_date: values.date,
-                }),
+            await createPlant({
+                plant_name: values.plantName,
+                genetic: values.genetic,
+                grow_mode: values.growMode,
+                auto: values.auto,
+                germination_date: values.date,
             });
-
-            const data = await response.json();
-
-            if (data.error === false) {
-                isSuccess(true);
-                setIsOpen(true);
-                setChange(true);
-                reset();
-                return;
-            }
-
-            isSuccess(false);
-            setErrmsg('The plant could not be created. Please try again.');
+            isSuccess(true);
+            setIsOpen(true);
+            reset();
         } catch (error) {
-            console.log(error.message);
             isSuccess(false);
-            setErrmsg('Something went wrong while creating the plant.');
+            setErrmsg(error.message || 'Something went wrong while creating the plant.');
         }
     };
 
     const handleClose = () => {
         setIsOpen(false);
-        setChange(false);
     };
 
     const addAnother = () => {
         setIsOpen(false);
         isSuccess(false);
         reset();
-        setChange(false);
     };
 
     if (!authUser) {
@@ -93,7 +71,8 @@ export const AddPlant = () => {
                             <div className="crud-panel__header">
                                 <span className="section-label">Collection management</span>
                                 <h1>Add a new plant</h1>
-                                <p>We are still loading your profile before creating a plant record.</p>
+                                <p>{dataError || 'We are still loading your profile before creating a plant record.'}</p>
+                                {dataError && <button className="crud-button crud-button--secondary" type="button" onClick={retryData} disabled={loadingData}>Retry loading</button>}
                             </div>
                         </section>
                     </div>
@@ -124,9 +103,9 @@ export const AddPlant = () => {
                     <aside className="crud-side">
                         <div>
                             <span className="section-label crud-side__eyebrow">New plant record</span>
-                            <h1 className="crud-side__title">Start a cleaner timeline for the next plant in your grow.</h1>
+                            <h2 className="crud-side__title">A new beginning.</h2>
                             <p className="crud-side__copy">
-                                Add the plant once with its core details and the rest of the collection becomes easier to scan and compare.
+                                Give your plant a name and record the details that follow it through the grow.
                             </p>
                         </div>
 
@@ -137,11 +116,11 @@ export const AddPlant = () => {
                             </article>
                             <article className="crud-side__item">
                                 <strong>Grow mode matters</strong>
-                                <p>Indoor and outdoor records stay readable when each plant starts with clear metadata.</p>
+                                <p>Choose indoor or outdoor to record where this plant is growing.</p>
                             </article>
                             <article className="crud-side__item">
-                                <strong>Cleaner comparisons later</strong>
-                                <p>Good structure now makes future runs easier to understand and review.</p>
+                                <strong>Room in your garden</strong>
+                                <p>Your new plant appears in the garden and in the classic collection.</p>
                             </article>
                         </div>
                     </aside>
@@ -157,47 +136,48 @@ export const AddPlant = () => {
 
                         <form className="crud-form" onSubmit={handleSubmit(onSubmit)}>
                             <label className="crud-field">
-                                <span>Plant name</span>
-                                <input type="text" placeholder="Lemon Haze" {...register('plantName')} />
+                                <span id="add-plant-name-label">Plant name</span>
+                                <input type="text" placeholder="Lemon Haze" aria-labelledby="add-plant-name-label" aria-invalid={Boolean(errors.plantName)} aria-describedby={errors.plantName ? 'add-plant-name-error' : undefined} {...register('plantName')} />
+                                {errors.plantName && <span id="add-plant-name-error" className="crud-fieldError" role="alert">{errors.plantName.message}</span>}
                             </label>
-                            {errors.plantName && <span className="crud-fieldError">{errors.plantName.message}</span>}
 
                             <div className="crud-formRow">
                                 <label className="crud-field">
-                                    <span>Genetic family</span>
-                                    <select {...register('genetic')}>
+                                    <span id="add-plant-genetic-label">Genetic family</span>
+                                    <select aria-labelledby="add-plant-genetic-label" aria-invalid={Boolean(errors.genetic)} aria-describedby={errors.genetic ? 'add-plant-genetic-error' : undefined} {...register('genetic')}>
                                         <option value="">Choose a family</option>
                                         <option value="Indica">Indica</option>
                                         <option value="Indica-dominating breed">Indica-dominating breed</option>
                                         <option value="Sativa">Sativa</option>
                                         <option value="Sativa-dominating breed">Sativa-dominating breed</option>
                                     </select>
+                                    {errors.genetic && <span id="add-plant-genetic-error" className="crud-fieldError" role="alert">{errors.genetic.message}</span>}
                                 </label>
 
                                 <label className="crud-field">
-                                    <span>Grow mode</span>
-                                    <select {...register('growMode')}>
+                                    <span id="add-plant-grow-label">Grow mode</span>
+                                    <select aria-labelledby="add-plant-grow-label" aria-invalid={Boolean(errors.growMode)} aria-describedby={errors.growMode ? 'add-plant-grow-error' : undefined} {...register('growMode')}>
                                         <option value="">Choose the grow mode</option>
                                         <option value="Exterior">Exterior</option>
                                         <option value="Interior">Interior</option>
                                     </select>
+                                    {errors.growMode && <span id="add-plant-grow-error" className="crud-fieldError" role="alert">{errors.growMode.message}</span>}
                                 </label>
                             </div>
-                            {errors.genetic && <span className="crud-fieldError">{errors.genetic.message}</span>}
-                            {errors.growMode && <span className="crud-fieldError">{errors.growMode.message}</span>}
 
                             <label className="crud-field">
-                                <span>Germination date</span>
-                                <input type="date" min="2022-09-01" {...register('date')} />
+                                <span id="add-plant-date-label">Germination date</span>
+                                <input type="date" min="2022-09-01" aria-labelledby="add-plant-date-label" aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? 'add-plant-date-error' : undefined} {...register('date')} />
+                                {errors.date && <span id="add-plant-date-error" className="crud-fieldError" role="alert">{errors.date.message}</span>}
                             </label>
-                            {errors.date && <span className="crud-fieldError">{errors.date.message}</span>}
 
                             <label className="crud-checkbox">
                                 <div className="crud-checkbox__copy">
-                                    <strong>Autoflower</strong>
-                                    <span>Mark this plant as auto if the cycle does not depend on a photoperiod switch.</span>
+                                    <strong id="add-plant-auto-label">Autoflower</strong>
+                                    <span id="add-plant-auto-help">Mark this plant as auto if the cycle does not depend on a photoperiod switch.</span>
+                                    {errors.auto && <span id="add-plant-auto-error" className="crud-fieldError" role="alert">{errors.auto.message}</span>}
                                 </div>
-                                <input type="checkbox" {...register('auto')} />
+                                <input type="checkbox" aria-labelledby="add-plant-auto-label" aria-invalid={Boolean(errors.auto)} aria-describedby={errors.auto ? 'add-plant-auto-help add-plant-auto-error' : 'add-plant-auto-help'} {...register('auto')} />
                             </label>
 
                             <div className="crud-actions">

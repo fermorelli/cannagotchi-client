@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { AddUser } from './components/addUser/AddUser';
 import { EditUser } from './components/edituser/EditUser';
 import { UserList } from './components/userList/UserList';
@@ -14,18 +15,26 @@ import { EditPlant } from './components/editplant/EditPlant';
 import { Landing } from './components/landing/Landing';
 import { Faqs } from './components/faqs/Faqs';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { DataStatus } from './components/garden/DataStatus';
+import { CareProvider } from './context/careContext';
+import { Loader } from './components/loader/loader';
+
+const Garden = lazy(() => import('./components/garden/Garden').then((module) => ({ default: module.Garden })));
 
 function App() {
   return (
     <div className="App">
       <AuthProvider>
         <Router basename={import.meta.env.BASE_URL}>
+          <CareProvider>
           <Nav />
+          <DataStatus />
             <Routes>
               <Route path='/' element={<Landing />} exact></Route>
               <Route path='/login' element={<LogIn />} exact></Route>
               <Route path='/signup' element={<SignUp />} exact></Route>
               <Route path='/faqs' element={<Faqs />} exact></Route>
+              <Route path='/garden' element={<Suspense fallback={<Loader />}><Garden /></Suspense>}></Route>
               <Route element={<ProtectedRoute />}>
                 <Route path='/home' element={<Home />} exact></Route>
                 <Route path='/users' element={<UserList />} exact></Route>
@@ -37,7 +46,8 @@ function App() {
                 <Route path='/edit-plant/:id' element={<EditPlant />} exact></Route>
               </Route>
             </Routes>
-          </Router>
+          </CareProvider>
+        </Router>
       </AuthProvider>
     </div>
   );

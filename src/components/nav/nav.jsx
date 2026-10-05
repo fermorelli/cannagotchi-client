@@ -1,17 +1,19 @@
 import './nav.css';
 import '../workspace.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Modal from '../modal/modal';
 import { GiChestnutLeaf } from 'react-icons/gi';
 
 export const Nav = () => {
     const [isOpen, setIsOpen] = useState(false); // logout modal
     const [menuOpen, setMenuOpen] = useState(false); // mobile menu
+    const menuToggle = useRef(null);
 
-    const { user, logout } = useAuth();
+    const { user, logout, isLocalMode } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogOut = async () => {
         setIsOpen(false);
@@ -25,6 +27,15 @@ export const Nav = () => {
     };
 
     const closeMenu = () => setMenuOpen(false);
+
+    useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+
+    useEffect(() => {
+        const desktop = window.matchMedia('(min-width: 761px)');
+        const onResize = () => { if (desktop.matches) setMenuOpen(false); };
+        desktop.addEventListener('change', onResize);
+        return () => desktop.removeEventListener('change', onResize);
+    }, []);
 
     useEffect(() => {
         const onKeyDown = (e) => {
@@ -49,7 +60,7 @@ export const Nav = () => {
                 </Modal>
             )}
 
-            <nav className="nav">
+            <nav className="nav" aria-label="Primary navigation">
                 <div className="nav__inner">
                     <Link to="/" className="logo" onClick={closeMenu}>
                         <GiChestnutLeaf />
@@ -59,8 +70,10 @@ export const Nav = () => {
                     <button
                         type="button"
                         className="nav__toggle"
+                        ref={menuToggle}
                         aria-label="Toggle menu"
                         aria-expanded={menuOpen}
+                        aria-controls="app-navigation"
                         onClick={() => setMenuOpen((v) => !v)}
                     >
                         <span className="nav__bar" />
@@ -68,34 +81,38 @@ export const Nav = () => {
                         <span className="nav__bar" />
                     </button>
 
-                    <div className={`nav__links ${menuOpen ? 'is-open' : ''}`}>
+                    <div id="app-navigation" className={`nav__links ${menuOpen ? 'is-open' : ''}`}>
+                        <NavLink to="/garden" onClick={closeMenu}>Garden</NavLink>
                         {user ? (
                             <>
-                                <Link to="/home" onClick={closeMenu}>
+                                <NavLink to="/home" onClick={closeMenu}>
                                     Home
-                                </Link>
-                                <Link to="/plants" onClick={closeMenu}>
-                                    My Plants
-                                </Link>
+                                </NavLink>
+                                <NavLink to="/plants" onClick={closeMenu}>
+                                    My plants
+                                </NavLink>
                                 <button
                                     type="button"
                                     className="nav__logout"
                                     onClick={() => {
+                                        if (window.matchMedia('(max-width: 760px)').matches) {
+                                            menuToggle.current?.focus();
+                                        }
                                         setIsOpen(true);
                                         closeMenu();
                                     }}
                                 >
-                                    Log out
+                                    {isLocalMode ? 'Exit local garden' : 'Log out'}
                                 </button>
                             </>
                         ) : (
                             <>
-                                <Link to="/login" onClick={closeMenu}>
+                                <NavLink to="/login" onClick={closeMenu}>
                                     Log in
-                                </Link>
-                                <Link to="/signup" className="nav__cta" onClick={closeMenu}>
+                                </NavLink>
+                                <NavLink to="/signup" className="nav__cta" onClick={closeMenu}>
                                     Sign up
-                                </Link>
+                                </NavLink>
                             </>
                         )}
                     </div>
@@ -106,6 +123,7 @@ export const Nav = () => {
                     type="button"
                     className={`nav__backdrop ${menuOpen ? 'is-open' : ''}`}
                     aria-label="Close menu"
+                    tabIndex={menuOpen ? 0 : -1}
                     onClick={closeMenu}
                 />
             </nav>

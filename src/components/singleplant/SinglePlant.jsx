@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BsFillPencilFill } from 'react-icons/bs';
-import { FiArrowLeft, FiClock, FiDroplet } from 'react-icons/fi';
+import { FiArrowLeft, FiClock, FiDroplet, FiScissors } from 'react-icons/fi';
 import { GoTrashcan } from 'react-icons/go';
 import './singleplant.css';
 import '../workspace.css';
 import Modal from '../modal/modal';
 import { Footer } from '../footer/Footer';
 import { useAuth } from '../../context/authContext.jsx';
+import { PlantJournal } from '../care/PlantJournal';
+import { HarvestPlant } from '../garden/HarvestPlant';
+import { useCare } from '../../context/careContext';
 import {
     formatPlantDate,
     getDaysUntilHarvest,
@@ -43,32 +46,33 @@ const getPlantSprite = (ageInDays) => {
 };
 
 export const SinglePlant = () => {
-    const [plant, setPlant] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [confirm, setConfirm] = useState(false);
+    const [deletedPlant, setDeletedPlant] = useState(null);
+    const [deleting, setDeleting] = useState(false);
+    const [errmsg, setErrmsg] = useState('');
+    const [harvestingPlant, setHarvestingPlant] = useState(null);
 
-    const { isDeleted } = useAuth();
+    const { plants, authUser, deletePlant, dataError, loadingData, retryData, isLocalMode } = useAuth();
+    const { getStage } = useCare();
     const { id } = useParams();
     const navigate = useNavigate();
-    const back = '/api/';
+    const currentPlant = plants.find((item) => item._id === id && item.user_id === authUser?._id);
+    const retainedPlant = deletedPlant || harvestingPlant;
+    const plant = currentPlant || (retainedPlant?._id === id && retainedPlant?.user_id === authUser?._id ? retainedPlant : null);
 
     useEffect(() => {
-        const getPlant = async () => {
-            try {
-                const response = await fetch(`${back}plants/${id}`, {
-                    headers: {
-                        'Access-Control-Allow-Origin': 'https://localhost:3000',
-                    },
-                });
-                const data = await response.json();
-                setPlant(data.data);
-            } catch (error) {
-                console.log(error.message);
-            }
-        };
+        setIsOpen(false);
+        setConfirm(false);
+        setDeletedPlant(null);
+        setErrmsg('');
+        setHarvestingPlant(null);
+    }, [id, authUser?._id, isLocalMode]);
 
-        getPlant();
-    }, [id]);
+    const finishHarvest = useCallback(() => {
+        setHarvestingPlant(null);
+        navigate('/plants', { replace: true });
+    }, [navigate]);
 
     const plantAge = getPlantAgeInDays(plant?.germination_date);
     const stageLabel = getPlantStageLabel(plantAge);
@@ -90,27 +94,32 @@ export const SinglePlant = () => {
 
     const openDeleteModal = () => {
         setConfirm(false);
+        setErrmsg('');
         setIsOpen(true);
     };
 
     const handleClose = () => {
+        if (deleting) return;
         setIsOpen(false);
         setConfirm(false);
-        isDeleted(false);
+        setDeletedPlant(null);
+        setErrmsg('');
+        if (confirm) navigate('/plants');
     };
 
-    const deletePlant = async () => {
+    const handleDelete = async () => {
+        if (deleting) return;
+        setDeleting(true);
+        setErrmsg('');
+        setDeletedPlant(plant);
         try {
-            const response = await fetch(`${back}plants/${id}`, { method: 'DELETE' });
-
-            if (!response.ok) {
-                throw new Error('Something went wrong');
-            }
-
-            isDeleted(true);
+            await deletePlant(id);
             setConfirm(true);
         } catch (error) {
-            console.log(error.message);
+            setDeletedPlant(null);
+            setErrmsg(error.message || 'The plant could not be deleted. Please try again.');
+        } finally {
+            setDeleting(false);
         }
     };
 
@@ -123,10 +132,12 @@ export const SinglePlant = () => {
                             <div className="workspace-panel__header">
                                 <div>
                                     <span className="section-label">Plant record</span>
-                                    <h1 className="workspace-panel__title">Loading plant details</h1>
+                                    <h1 className="workspace-panel__title">{loadingData ? 'Loading plant details' : 'Plant unavailable'}</h1>
                                 </div>
                             </div>
-                            <p>We are pulling the latest information for this plant.</p>
+                            <p>{dataError || (loadingData ? 'We are pulling the latest information for this plant.' : 'This plant was not found in your collection.')}</p>
+                            {dataError && <button type="button" className="workspace-button workspace-button--secondary" onClick={retryData} disabled={loadingData}>Retry loading</button>}
+                            <Link className="workspace-button workspace-button--secondary" to="/plants">Back to plants</Link>
                         </section>
                     </div>
                 </div>
@@ -137,6 +148,16 @@ export const SinglePlant = () => {
 
     return (
         <>
+            {harvestingPlant && (
+                <HarvestPlant
+                    plant={harvestingPlant}
+                    onCancel={() => setHarvestingPlant(null)}
+                    onHarvested={finishHarvest}
+                    returnLabel="Back to plants"
+                    headingLabel="PLANT RECORD"
+                    closeLabel="Close harvest dialog"
+                />
+            )}
             {isOpen && (
                 <Modal
                     setIsOpen={setIsOpen}
@@ -148,13 +169,14 @@ export const SinglePlant = () => {
                             ? `This will remove ${plant.plant_name} from your collection and it cannot be undone.`
                             : `${plant.plant_name} was removed from your collection.`}
                     </p>
+                    {errmsg && <p role="alert">{errmsg}</p>}
                     <div className="workspace-inlineActions singleplant-modalActions">
                         {!confirm ? (
                             <>
-                                <button type="button" className="workspace-button workspace-button--danger" onClick={deletePlant}>
-                                    Delete plant
+                                <button type="button" className="workspace-button workspace-button--danger" onClick={handleDelete} disabled={deleting}>
+                                    {deleting ? 'Deleting plant...' : 'Delete plant'}
                                 </button>
-                                <button type="button" className="workspace-button workspace-button--secondary" onClick={handleClose}>
+                                <button type="button" className="workspace-button workspace-button--secondary" onClick={handleClose} disabled={deleting}>
                                     Cancel
                                 </button>
                             </>
@@ -190,25 +212,25 @@ export const SinglePlant = () => {
                             <span className="section-label workspace-kicker">Plant record</span>
                             <h1 className="workspace-title">{plant.plant_name}</h1>
                             <p className="workspace-subtitle">
-                                This record keeps the essentials visible so you can review the cycle quickly and make the next move with
-                                more confidence.
+                                Grow details, important dates and care notes for this plant.
                             </p>
 
-                            <div className="singleplant-pills">
-                                <span className="workspace-pill">{stageLabel}</span>
-                                <span className="workspace-pill workspace-pill--soft">{plant.genetic}</span>
-                                <span className="workspace-pill workspace-pill--soft">{plant.grow_mode}</span>
-                                <span className="workspace-pill workspace-pill--warm">
-                                    {isAutoflower(plant.auto) ? 'Autoflower' : 'Photoperiod'}
-                                </span>
-                            </div>
+                            <dl className="singleplant-details">
+                                <div><dt>Genetics</dt><dd>{plant.genetic}</dd></div>
+                                <div><dt>Grow mode</dt><dd>{plant.grow_mode}</dd></div>
+                                <div><dt>Cycle</dt><dd>{isAutoflower(plant.auto) ? 'Autoflower' : 'Photoperiod'}</dd></div>
+                            </dl>
 
                             <div className="workspace-actions">
                                 <Link className="workspace-button workspace-button--primary" to={`/edit-plant/${plant._id}`}>
                                     <BsFillPencilFill />
                                     Edit plant
                                 </Link>
-                                <button type="button" className="workspace-button workspace-button--danger" onClick={openDeleteModal}>
+                                <button type="button" className="workspace-button singleplant-harvest" disabled={!currentPlant || deleting} onClick={() => setHarvestingPlant({ ...currentPlant, visualStage: getStage(currentPlant._id) })}>
+                                    <FiScissors />
+                                    Harvest plant
+                                </button>
+                                <button type="button" className="workspace-button workspace-button--danger" onClick={openDeleteModal} disabled={!currentPlant}>
                                     <GoTrashcan />
                                     Delete
                                 </button>
@@ -274,6 +296,8 @@ export const SinglePlant = () => {
                         </section>
                     </div>
 
+                    {!confirm && currentPlant && <PlantJournal plant={plant} />}
+
                     <section className="workspace-actionCard">
                         <span className="workspace-card__eyebrow">Timeline note</span>
                         <h2 className="workspace-actionCard__title">Estimated harvest timing</h2>
@@ -288,7 +312,7 @@ export const SinglePlant = () => {
                             <FiDroplet />
                             <div>
                                 <strong>Keep the record updated</strong>
-                                <p>The cleaner the dates and plant details are, the more helpful your cycle planning becomes.</p>
+                                <p>Record care and observations in the notebook above as your plant grows.</p>
                             </div>
                         </div>
                     </section>

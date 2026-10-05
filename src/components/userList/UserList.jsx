@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { FiPlus } from 'react-icons/fi';
 import { GoTrashcan } from 'react-icons/go';
 import './userlist.css';
 import '../workspace.css';
+import '../garden/dataStatus.css';
 import Modal from '../modal/modal';
 import { useAuth } from '../../context/authContext.jsx';
 import { Footer } from '../footer/Footer';
@@ -15,59 +16,103 @@ export const UserList = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [loadingUsers, setLoadingUsers] = useState(true);
+    const [loadError, setLoadError] = useState('');
+    const [refreshVersion, setRefreshVersion] = useState(0);
+    const [deleting, setDeleting] = useState(false);
+    const [deleteError, setDeleteError] = useState('');
+    const deletingRef = useRef(false);
+    const loadRequestRef = useRef(0);
 
     const { user } = useAuth();
     const back = '/api/';
 
     useEffect(() => {
+        try {
+            const persistedEditMode = localStorage.getItem('users-edit-mode') === 'true';
+            setShowEdit(persistedEditMode);
+            localStorage.removeItem('users-edit-mode');
+        } catch {
+            // The list can still be used when browser preferences cannot be read.
+        }
+    }, [user]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const request = ++loadRequestRef.current;
+        let active = true;
+        const isCurrent = () => active && request === loadRequestRef.current;
+        const timeout = setTimeout(() => controller.abort(), 15000);
+        setLoadingUsers(true);
+        setLoadError('');
         const fetchUsers = async () => {
             try {
                 const response = await fetch(`${back}users`, {
                     headers: {
                         'Access-Control-Allow-Origin': 'https://localhost:3000',
                     },
+                    signal: controller.signal,
                 });
+                if (!response.ok) throw new Error(`Could not load user profiles (${response.status}). Please try again.`);
                 const data = await response.json();
-                setUsers(data.data || []);
+                if (data?.error === true || !Array.isArray(data?.data)) throw new Error('The user service returned incomplete profile data. Please try again.');
+                if (isCurrent()) setUsers(data.data);
             } catch (error) {
-                console.log(error.message);
+                if (isCurrent()) setLoadError(error.name === 'AbortError' ? 'The user service took too long to respond. Please try again.' : error instanceof TypeError ? 'Could not reach the user service. Check your connection and try again.' : error instanceof SyntaxError ? 'The user service returned an unexpected response. Please try again.' : error.message);
+            } finally {
+                clearTimeout(timeout);
+                if (isCurrent()) setLoadingUsers(false);
             }
         };
-
-        const persistedEditMode = localStorage.getItem('users-edit-mode') === 'true';
-        setShowEdit(persistedEditMode);
-        localStorage.removeItem('users-edit-mode');
         fetchUsers();
-    }, [user]);
+        return () => { active = false; clearTimeout(timeout); controller.abort(); };
+    }, [user, refreshVersion]);
 
     const handleChange = (userItem) => {
+        if (deletingRef.current) return;
         setSelectedUser(userItem);
         setConfirm(false);
+        setDeleteError('');
         setIsOpen(true);
     };
 
     const handleClose = () => {
+        if (deletingRef.current) return;
         setIsOpen(false);
         setConfirm(false);
         setSelectedUser(null);
+        setDeleteError('');
     };
 
     const deleteUser = async () => {
-        if (!selectedUser?._id) {
-            return;
-        }
+        if (deletingRef.current || !selectedUser?._id) return;
+        deletingRef.current = true;
+        setDeleting(true);
+        setDeleteError('');
+        const id = selectedUser._id;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
 
         try {
-            const response = await fetch(`${back}users/${selectedUser._id}`, { method: 'DELETE' });
+            const response = await fetch(`${back}users/${encodeURIComponent(id)}`, { method: 'DELETE', signal: controller.signal });
 
             if (!response.ok) {
-                throw new Error('Something went wrong');
+                throw new Error(`Could not delete this user (${response.status}). Please try again.`);
             }
-
-            setUsers((currentUsers) => currentUsers.filter((userItem) => userItem._id !== selectedUser._id));
+            const result = await response.json().catch(() => null);
+            if (result?.error === true) throw new Error(typeof result.message === 'string' ? result.message : 'The user service could not delete this user. Please try again.');
+            // A GET started before this successful deletion must not restore the removed profile.
+            loadRequestRef.current += 1;
+            setLoadingUsers(false);
+            setLoadError('');
+            setUsers((currentUsers) => currentUsers.filter((userItem) => userItem._id !== id));
             setConfirm(true);
         } catch (error) {
-            console.log(error.message);
+            setDeleteError(error.name === 'AbortError' ? 'Could not confirm deletion because the user service took too long. Reload the list before trying again.' : error instanceof TypeError ? 'Could not reach the user service. The deletion was not confirmed. Please try again.' : error.message);
+        } finally {
+            clearTimeout(timeout);
+            deletingRef.current = false;
+            setDeleting(false);
         }
     };
 
@@ -78,19 +123,22 @@ export const UserList = () => {
                     setIsOpen={setIsOpen}
                     handleClose={handleClose}
                     modalTitle={!confirm ? 'Delete this user?' : 'User deleted'}
+                    busy={deleting}
                 >
                     <p>
                         {!confirm
                             ? `This will remove ${selectedUser?.firstName} ${selectedUser?.lastName} from the user list.`
                             : `${selectedUser?.firstName} ${selectedUser?.lastName} was removed successfully.`}
                     </p>
+                    {deleteError && <div className="data-status data-status--error" role="alert"><span className="data-status__message">{deleteError}</span></div>}
+                    {deleting && <p role="status">Deleting user… Waiting for the service to confirm.</p>}
                     <div className="workspace-inlineActions userlist-modalActions">
                         {!confirm ? (
                             <>
-                                <button type="button" className="workspace-button workspace-button--danger" onClick={deleteUser}>
-                                    Delete user
+                                <button type="button" className="workspace-button workspace-button--danger" onClick={deleteUser} disabled={deleting}>
+                                    {deleting ? 'Deleting…' : 'Delete user'}
                                 </button>
-                                <button type="button" className="workspace-button workspace-button--secondary" onClick={handleClose}>
+                                <button type="button" className="workspace-button workspace-button--secondary" onClick={handleClose} disabled={deleting}>
                                     Cancel
                                 </button>
                             </>
@@ -108,9 +156,9 @@ export const UserList = () => {
                     <section className="workspace-hero">
                         <div className="workspace-hero__copy">
                             <span className="section-label workspace-kicker">User management</span>
-                            <h1 className="workspace-title">Keep the user list as polished as the rest of the app.</h1>
+                            <h1 className="workspace-title">User profiles.</h1>
                             <p className="workspace-subtitle">
-                                Review profiles, jump into edits, and make admin changes without dropping into a rough utility screen.
+                                Review profile details and manage user records.
                             </p>
 
                             <div className="workspace-actions">
@@ -124,7 +172,7 @@ export const UserList = () => {
                             </div>
                         </div>
 
-                        <div className="workspace-panel userlist-toolbar">
+                        <div className="userlist-toolbar">
                             <div className="workspace-panel__header">
                                 <div>
                                     <span className="workspace-card__eyebrow">List controls</span>
@@ -147,18 +195,20 @@ export const UserList = () => {
                         </div>
                     </section>
 
-                    {users.length === 0 ? (
+                    {loadingUsers && <section className="workspace-panel" role="status"><h2 className="workspace-panel__title">Loading user profiles</h2><p className="workspace-note">Waiting for the user service to return the list.</p></section>}
+                    {loadError && <div className="data-status data-status--error" role="alert"><span className="data-status__message">{loadError}</span><button type="button" onClick={() => setRefreshVersion((version) => version + 1)} disabled={loadingUsers}>{loadingUsers ? 'Retrying…' : 'Try again'}</button></div>}
+                    {!loadingUsers && !loadError && users.length === 0 ? (
                         <section className="workspace-empty">
                             <span className="section-label">No users yet</span>
                             <h2 className="workspace-empty__title">The list is ready for the first profile.</h2>
-                            <p>Create a user entry and it will appear here with the new card layout.</p>
+                            <p>Create a user entry to add a profile to this list.</p>
                             <div className="workspace-empty__actions">
                                 <Link className="workspace-button workspace-button--primary" to="/add-user">
                                     Add first user
                                 </Link>
                             </div>
                         </section>
-                    ) : (
+                    ) : users.length > 0 ? (
                         <section className="workspace-grid userlist-grid">
                             {users.map((userItem) => {
                                 const initials = `${userItem.firstName?.[0] || ''}${userItem.lastName?.[0] || ''}`;
@@ -211,7 +261,7 @@ export const UserList = () => {
                                 );
                             })}
                         </section>
-                    )}
+                    ) : null}
                 </div>
             </div>
             <Footer />

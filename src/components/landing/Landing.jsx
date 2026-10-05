@@ -22,6 +22,10 @@ export const Landing = () => {
                             </p>
 
                             <div className="landing-hero__actions">
+                                <Link className="landing-btn landing-btn--primary" to="/garden">
+                                    Visit the garden
+                                    <FiArrowRight />
+                                </Link>
                                 <Link className="landing-btn landing-btn--primary" to="/signup">
                                     Create account
                                     <FiArrowRight />
@@ -51,7 +55,7 @@ export const Landing = () => {
                             <div className="landing-showcase">
                                 <div className="landing-showcase__header">
                                     <div>
-                                        <span className="landing-showcase__eyebrow">Daily grow board</span>
+                                        <span className="landing-showcase__eyebrow">Example collection</span>
                                         <h2>Everything important at a glance</h2>
                                     </div>
                                     <span className="landing-showcase__badge">4 active plants</span>
@@ -60,7 +64,7 @@ export const Landing = () => {
                                 <div className="landing-showcase__metrics">
                                     <article>
                                         <span>Watering</span>
-                                        <strong>2 due today</strong>
+                                        <strong>2 recorded</strong>
                                     </article>
                                     <article>
                                         <span>Harvest window</span>
@@ -86,7 +90,7 @@ export const Landing = () => {
                                             <strong>Northern Lights</strong>
                                             <span>Indica / Outdoor</span>
                                         </div>
-                                        <span className="landing-plantCard__status is-warm">Feed today</span>
+                                        <span className="landing-plantCard__status is-warm">Flowering</span>
                                     </article>
                                 </div>
                             </div>

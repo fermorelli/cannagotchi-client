@@ -12,7 +12,7 @@ import { formatPlantDate, getDaysUntilHarvest, getEstimatedHarvestDate, isAutofl
 export const Home = () => {
     const [myPlants, setMyPlants] = useState([]);
 
-    const { user, authUser, plants } = useAuth();
+    const { user, authUser, plants, isLocalMode } = useAuth();
 
     useEffect(() => {
         if (!plants || !authUser?._id) {
@@ -89,24 +89,27 @@ export const Home = () => {
                         <div className="workspace-hero__copy">
                             <span className="section-label workspace-kicker">Personal grow dashboard</span>
                             <h1 className="workspace-title">
-                                Welcome back, {authUser.firstName}. Your grow is looking organized.
+                                Welcome back, {authUser.firstName}.
                             </h1>
                             <p className="workspace-subtitle">
-                                Review your collection, jump into the next plant that needs attention, and keep your records easy to
-                                revisit.
+                                Visit your garden, review the next harvest estimate, and keep your plant records close.
                             </p>
 
                             <div className="workspace-actions">
-                                <Link className="workspace-button workspace-button--primary" to="/add-plant">
+                                <Link className="workspace-button workspace-button--primary" to="/garden">
+                                    Visit your garden
+                                    <FiArrowRight />
+                                </Link>
+                                <Link className="workspace-button workspace-button--secondary" to="/add-plant">
                                     Add new plant
                                     <FiArrowRight />
                                 </Link>
                                 <Link className="workspace-button workspace-button--secondary" to="/plants">
                                     View collection
                                 </Link>
-                                <Link className="workspace-button workspace-button--secondary" to={`/edit-user/${authUser._id}`}>
+                                {!isLocalMode && <Link className="workspace-button workspace-button--secondary" to={`/edit-user/${authUser._id}`}>
                                     Edit profile
-                                </Link>
+                                </Link>}
                             </div>
                         </div>
 
@@ -123,7 +126,7 @@ export const Home = () => {
                                 <small>Indoor plants first, outdoor plants second.</small>
                             </article>
 
-                            <article className="workspace-metric">
+                            <article className="workspace-metric workspace-metric--date">
                                 <span>Next harvest estimate</span>
                                 <strong>{nextHarvestDate ? formatPlantDate(nextHarvestDate) : 'No date yet'}</strong>
                                 <small>{nextHarvestEntry ? nextHarvestEntry.plant.plant_name : 'Add a plant to start seeing projections.'}</small>
@@ -138,9 +141,9 @@ export const Home = () => {
                                     <span className="workspace-card__eyebrow">Profile snapshot</span>
                                     <h2 className="workspace-panel__title">Your personal profile</h2>
                                 </div>
-                                <Link className="workspace-iconButton" to={`/edit-user/${authUser._id}`} aria-label="Edit profile">
+                                {!isLocalMode && <Link className="workspace-iconButton" to={`/edit-user/${authUser._id}`} aria-label="Edit profile">
                                     <BsFillPencilFill />
-                                </Link>
+                                </Link>}
                             </div>
 
                             <div className="home-profileHeader">

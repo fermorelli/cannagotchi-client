@@ -1,7 +1,10 @@
-.all-faqs {
-    margin: 2rem 0 0 2rem;
-}
-
-.question-p{
-    margin: 2rem;
-}
+.faqs-page { padding-block: clamp(2rem, 5vw, 4rem); max-width: 880px; }
+.faqs-heading { max-width: 660px; margin-bottom: 2rem; }
+.faqs-heading h1 { margin: .9rem 0; font: 700 clamp(1.8rem, 4vw, 2.8rem)/1.12 var(--font-display); letter-spacing: -.025em; overflow-wrap: anywhere; }
+.faqs-heading p, .faqs-item p { color: var(--color-text-muted); }
+.faqs-list { margin-bottom: 2rem; border-top: 1px solid var(--color-border); }
+.faqs-item { padding: 1.25rem 0; border-bottom: 1px solid var(--color-border); overflow-wrap: anywhere; }
+.faqs-item summary { cursor: pointer; font-weight: 700; padding-right: .6rem; }
+.faqs-item summary::marker { color: var(--color-accent); }
+.faqs-item summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 6px; border-radius: 2px; }
+.faqs-item p { margin-top: .9rem; font-size: .95rem; max-width: 70ch; line-height: 1.75; }

@@ -1,0 +1,661 @@
+{
+  "date": "2026-10-05",
+  "fixture": "Isolated local API and fake auth; actual application components",
+  "publicPages": [
+    {
+      "label": "/ 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/ 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/ 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/ 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/ 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/ 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/login 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/login 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/login 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/login 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/login 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/login 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/signup 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/signup 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/signup 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/signup 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/signup 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/signup 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/faqs 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/faqs 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/faqs 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/faqs 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/faqs 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/faqs 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    }
+  ],
+  "classicPages": [
+    {
+      "label": "/home 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/home 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/home 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/home 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/home 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/home 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/plants 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/plants 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/plants 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/plants 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/plants 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/plants 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/plants/qa-plant-1 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/plants/qa-plant-1 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/plants/qa-plant-1 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/plants/qa-plant-1 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/plants/qa-plant-1 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/plants/qa-plant-1 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/add-plant 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/add-plant 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/add-plant 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/add-plant 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/add-plant 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/add-plant 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/edit-plant/qa-plant-1 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/edit-plant/qa-plant-1 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/edit-plant/qa-plant-1 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/edit-plant/qa-plant-1 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/edit-plant/qa-plant-1 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/edit-plant/qa-plant-1 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/users 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/users 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/users 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/users 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/users 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/users 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/add-user 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/add-user 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/add-user 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/add-user 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/add-user 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/add-user 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "/edit-user/qa-owner 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "/edit-user/qa-owner 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "/edit-user/qa-owner 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "/edit-user/qa-owner 768",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 758,
+      "viewport": 768
+    },
+    {
+      "label": "/edit-user/qa-owner 1024",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1014,
+      "viewport": 1024
+    },
+    {
+      "label": "/edit-user/qa-owner 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    }
+  ],
+  "garden": [
+    {
+      "label": "Garden 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 270,
+      "viewport": 280
+    },
+    {
+      "label": "Garden 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 310,
+      "viewport": 320
+    },
+    {
+      "label": "Garden 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 380,
+      "viewport": 390
+    },
+    {
+      "label": "Garden 640",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 630,
+      "viewport": 640
+    },
+    {
+      "label": "Garden 750",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 740,
+      "viewport": 750
+    },
+    {
+      "label": "Garden 760",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 750,
+      "viewport": 760
+    },
+    {
+      "label": "Garden 761",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 751,
+      "viewport": 761
+    },
+    {
+      "label": "Garden 850",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 840,
+      "viewport": 850
+    },
+    {
+      "label": "Garden 1000",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 990,
+      "viewport": 1000
+    },
+    {
+      "label": "Garden 1001",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 991,
+      "viewport": 1001
+    },
+    {
+      "label": "Garden 1280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1270,
+      "viewport": 1280
+    },
+    {
+      "label": "Garden 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1430,
+      "viewport": 1440
+    },
+    {
+      "label": "Garden 1920",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1910,
+      "viewport": 1920
+    }
+  ],
+  "notebook": [
+    {
+      "label": "Notebook 280",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 280,
+      "viewport": 280
+    },
+    {
+      "label": "Notebook 320",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 320,
+      "viewport": 320
+    },
+    {
+      "label": "Notebook 375",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 375,
+      "viewport": 375
+    },
+    {
+      "label": "Notebook 390",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 390,
+      "viewport": 390
+    },
+    {
+      "label": "Notebook 560",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 560,
+      "viewport": 560
+    },
+    {
+      "label": "Notebook 1001",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1001,
+      "viewport": 1001
+    },
+    {
+      "label": "Notebook 1440",
+      "clipped": [],
+      "outside": [],
+      "pageWidth": 1440,
+      "viewport": 1440
+    }
+  ],
+  "additionalChecks": [
+    "Empty Garden at 390px after first-attempt signup: no overflow",
+    "Notebook landscape 667x375: close control visible",
+    "Account/local journal switching preserves separate records"
+  ]
+}

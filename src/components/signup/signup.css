@@ -1,7 +1,5 @@
 .auth-page--signup .auth-side {
-    background:
-        linear-gradient(155deg, rgba(22, 39, 31, 0.96), rgba(12, 19, 15, 0.96)),
-        rgba(22, 39, 31, 0.95);
+    background: transparent;
 }
 
 .auth-page--signup .auth-card {

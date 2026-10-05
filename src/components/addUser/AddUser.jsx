@@ -90,9 +90,9 @@ export const AddUser = () => {
                     <aside className="crud-side">
                         <div>
                             <span className="section-label crud-side__eyebrow">New internal profile</span>
-                            <h1 className="crud-side__title">Create a user record that fits the cleaner workspace.</h1>
+                            <h2 className="crud-side__title">A place for a new profile.</h2>
                             <p className="crud-side__copy">
-                                Add the profile details once and keep the list of users tidy, readable, and easy to maintain.
+                                Add a name and email to create a profile in the user list.
                             </p>
                         </div>
 
@@ -102,12 +102,12 @@ export const AddUser = () => {
                                 <p>First name, last name, and email stay visible from the list view.</p>
                             </article>
                             <article className="crud-side__item">
-                                <strong>Consistent records</strong>
-                                <p>The same structure helps the whole app feel more intentional and easier to edit later.</p>
+                                <strong>Contact details</strong>
+                                <p>Use the correct email so the profile is easy to identify.</p>
                             </article>
                             <article className="crud-side__item">
-                                <strong>Quick admin flow</strong>
-                                <p>Create the record here, then jump back to the user list without friction.</p>
+                                <strong>Review later</strong>
+                                <p>Find the profile in the user list whenever you need to update it.</p>
                             </article>
                         </div>
                     </aside>
@@ -116,7 +116,7 @@ export const AddUser = () => {
                         <div className="crud-panel__header">
                             <span className="section-label">User management</span>
                             <h1>Add a new user</h1>
-                            <p>Create a clean profile entry for the app and keep the internal records structured from the start.</p>
+                            <p>Enter the name and email for this profile.</p>
                         </div>
 
                         {errmsg && <div className="crud-alert">{errmsg}</div>}
@@ -124,22 +124,22 @@ export const AddUser = () => {
                         <form className="crud-form" onSubmit={handleSubmit(onSubmit)}>
                             <div className="crud-formRow">
                                 <label className="crud-field">
-                                    <span>First name</span>
-                                    <input type="text" placeholder="Alex" autoComplete="given-name" {...register('firstName')} />
+                                    <span id="add-user-first-label">First name</span>
+                                    <input type="text" placeholder="Alex" autoComplete="given-name" aria-labelledby="add-user-first-label" aria-invalid={Boolean(errors.firstName)} aria-describedby={errors.firstName ? 'add-user-first-error' : undefined} {...register('firstName')} />
+                                    {errors.firstName && <span id="add-user-first-error" className="crud-fieldError" role="alert">{errors.firstName.message}</span>}
                                 </label>
                                 <label className="crud-field">
-                                    <span>Last name</span>
-                                    <input type="text" placeholder="Rivera" autoComplete="family-name" {...register('lastName')} />
+                                    <span id="add-user-last-label">Last name</span>
+                                    <input type="text" placeholder="Rivera" autoComplete="family-name" aria-labelledby="add-user-last-label" aria-invalid={Boolean(errors.lastName)} aria-describedby={errors.lastName ? 'add-user-last-error' : undefined} {...register('lastName')} />
+                                    {errors.lastName && <span id="add-user-last-error" className="crud-fieldError" role="alert">{errors.lastName.message}</span>}
                                 </label>
                             </div>
-                            {errors.firstName && <span className="crud-fieldError">{errors.firstName.message}</span>}
-                            {errors.lastName && <span className="crud-fieldError">{errors.lastName.message}</span>}
 
                             <label className="crud-field">
-                                <span>Email</span>
-                                <input type="email" placeholder="you@example.com" autoComplete="email" {...register('email')} />
+                                <span id="add-user-email-label">Email</span>
+                                <input type="email" placeholder="you@example.com" autoComplete="email" aria-labelledby="add-user-email-label" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'add-user-email-error' : undefined} {...register('email')} />
+                                {errors.email && <span id="add-user-email-error" className="crud-fieldError" role="alert">{errors.email.message}</span>}
                             </label>
-                            {errors.email && <span className="crud-fieldError">{errors.email.message}</span>}
 
                             <div className="crud-actions">
                                 <button className="crud-button crud-button--primary" type="submit" disabled={isSubmitting}>

@@ -96,7 +96,7 @@ export const SignUp = () => {
                     setErrmsg('Email already in use, please choose another one');
                     break;
                 case 'auth/network-request-failed':
-                    setErrmsg('Network request failed');
+                    setErrmsg('Check your connection and try again.');
                     break;
                 case 'auth/weak-password':
                     setErrmsg('Please use a stronger password');
@@ -147,7 +147,7 @@ export const SignUp = () => {
                         <div>
                             <span className="section-label auth-kicker">Start a cleaner grow log</span>
                             <div className="auth-heading">
-                                <h1>Build a cultivation workspace that feels ordered from day one.</h1>
+                                <h2>A place for every plant.</h2>
                                 <p>
                                     Set up your account, add your first plant, and move the whole grow into a layout that is easier to
                                     revisit and manage.
@@ -203,11 +203,11 @@ export const SignUp = () => {
                     <section className="auth-card">
                         <div className="auth-card__header">
                             <span className="section-label">Create your account</span>
-                            <h2>Sign up</h2>
-                            <p>Start a neater, more polished cultivation log with a profile built for your own grow routine.</p>
+                            <h1>Sign up</h1>
+                            <p>Create your profile and start recording your grow.</p>
                         </div>
 
-                        {errmsg && <div className="auth-alert">{errmsg}</div>}
+                        {errmsg && <div className="auth-alert" role="alert">{errmsg}</div>}
 
                         <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
                             <label className="auth-field">
@@ -217,10 +217,11 @@ export const SignUp = () => {
                                     placeholder="Alex"
                                     autoComplete="given-name"
                                     aria-invalid={errors.firstName ? 'true' : 'false'}
+                                    aria-describedby={errors.firstName ? 'signup-firstName-error' : undefined}
                                     {...register('firstName')}
                                 />
                             </label>
-                            {errors.firstName && <span className="auth-fieldError">{errors.firstName.message}</span>}
+                            {errors.firstName && <span id="signup-firstName-error" className="auth-fieldError">{errors.firstName.message}</span>}
 
                             <label className="auth-field">
                                 <span>Last name</span>
@@ -229,10 +230,11 @@ export const SignUp = () => {
                                     placeholder="Rivera"
                                     autoComplete="family-name"
                                     aria-invalid={errors.lastName ? 'true' : 'false'}
+                                    aria-describedby={errors.lastName ? 'signup-lastName-error' : undefined}
                                     {...register('lastName')}
                                 />
                             </label>
-                            {errors.lastName && <span className="auth-fieldError">{errors.lastName.message}</span>}
+                            {errors.lastName && <span id="signup-lastName-error" className="auth-fieldError">{errors.lastName.message}</span>}
 
                             <label className="auth-field">
                                 <span>Email</span>
@@ -241,10 +243,11 @@ export const SignUp = () => {
                                     placeholder="you@example.com"
                                     autoComplete="email"
                                     aria-invalid={errors.email ? 'true' : 'false'}
+                                    aria-describedby={errors.email ? 'signup-email-error' : undefined}
                                     {...register('email')}
                                 />
                             </label>
-                            {errors.email && <span className="auth-fieldError">{errors.email.message}</span>}
+                            {errors.email && <span id="signup-email-error" className="auth-fieldError">{errors.email.message}</span>}
 
                             <label className="auth-field">
                                 <span>Password</span>
@@ -253,10 +256,11 @@ export const SignUp = () => {
                                     placeholder="At least 8 characters"
                                     autoComplete="new-password"
                                     aria-invalid={errors.password ? 'true' : 'false'}
+                                    aria-describedby={errors.password ? 'signup-password-error' : undefined}
                                     {...register('password')}
                                 />
                             </label>
-                            {errors.password && <span className="auth-fieldError">{errors.password.message}</span>}
+                            {errors.password && <span id="signup-password-error" className="auth-fieldError">{errors.password.message}</span>}
 
                             <button className="auth-submit" type="submit" disabled={fetching}>
                                 {fetching ? 'Creating account...' : 'Create account'}

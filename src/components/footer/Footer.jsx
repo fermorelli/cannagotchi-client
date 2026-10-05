@@ -35,7 +35,7 @@ export const Footer = () => {
                         <a href="https://www.facebook.com/ilcosme18" target="_blank" rel="noreferrer" aria-label="Facebook">
                             <BsFacebook />
                         </a>
-                        <a href="https://www.ilinkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                        <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
                             <BsLinkedin />
                         </a>
                     </div>
